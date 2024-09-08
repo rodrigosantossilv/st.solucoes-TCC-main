@@ -1,106 +1,179 @@
 <template>
     <div class="intro-container">
-      <div class="intro-header">
-        <img src="/images/ST.png" alt="Logotipo" />
-        <h1>ST SOLUCOES</h1>
-      </div>
-      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-        viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
-        <defs>
-          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-        </defs>
-        <g class="parallax">
-          <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7)" />
-          <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
-          <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
-          <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
-        </g>
-      </svg>
-      <p class="empressa">@DiguinhoTech</p>
+        <!-- Cabeçalho principal contendo o logotipo e o título -->
+        <div class="intro-header">
+            <!-- Logotipo da empresa -->
+            <img src="/images/ST.png" alt="Logotipo" class="logo" />
+        </div>
+        <!-- Container para os botões de login e cadastro -->
+        <div class="intro-buttons">
+            <!-- Botão de Login -->
+            <router-link to="/login">
+                <button type="button" class="btn btn-outline-light ">Login</button>
+            </router-link>
+            <!-- Botão de Cadastro -->
+            <router-link to="/register">
+                <button type="button" class="btn btn-outline-light">Cadastre-se</button>
+            </router-link>
+        </div>
+        <!-- SVG animado das ondas -->
+        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+            <defs>
+                <!-- Definição do caminho da onda -->
+                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+            </defs>
+            <!-- Grupo de ondas animadas -->
+            <g class="parallax">
+                <!-- Ondas com diferentes opacidades -->
+                <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7)" />
+                <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+                <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+                <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+            </g>
+        </svg>
+        <!-- Nome da empresa ou marca -->
+        <p class="empressa">@DiguinhoTech</p>
     </div>
-  </template>
-  
-  <script>
-  export default {
+</template>
+
+<script>
+import { RouterLink } from 'vue-router';
+
+export default {
     name: "IntroAnimation",
-  };
-  </script>
-  
-  <style scoped>
-  /* Reset básico */
-  body, html {
+};
+</script>
+
+<style scoped>
+/* Reset básico para remover margens e espaçamentos padrão do navegador */
+body,
+html {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
     font-family: Arial, sans-serif;
-  }
-  .empressa{
-    margin-top: 150px;
-    color: rgb(255, 255, 255) ;
-  }
-  .intro-container {
+    /* Fonte padrão do site */
+}
+
+/* Estilo do container principal que envolve todo o conteúdo */
+.intro-container {
     position: relative;
+    /* Necessário para posicionamento absoluto dos elementos filhos */
     text-align: center;
-    background: linear-gradient(60deg, rgba(84,58,183,1) 0%, rgba(0,172,193,1) 100%);
+    /* Centraliza o conteúdo dentro do container */
+    background: linear-gradient(to bottom, #0575E6, #02298A, #021B79);
+    /* Fundo gradiente */
     color: white;
+    /* Cor do texto em branco */
     height: 100vh;
+    /* Altura da tela cheia */
     overflow: hidden;
-  }
-  
-  .intro-header {
-    height: 65vh;
+    /* Esconde o conteúdo que ultrapassa os limites do container */
+}
+
+/* Estilo do cabeçalho que envolve o logotipo e o título */
+.intro-header {
     width: 100%;
+    /* Largura completa da tela */
     margin: 0;
     padding: 0;
     display: flex;
+    /* Flexbox para alinhamento do conteúdo */
     justify-content: center;
+    /* Centraliza horizontalmente */
     align-items: center;
+    /* Centraliza verticalmente */
     text-align: center;
-  }
-  
-  .logo {
-    width: 50px;
-    fill: white;
-    padding-right: 15px;
-    display: inline-block;
-    vertical-align: middle;
-  }
-  
-  .waves {
+    flex-direction: column;
+    /* Empilha o logotipo e o título verticalmente */
+}
+
+/* Estilo da imagem do logotipo, ajustando o tamanho */
+.logo {
+    width: 30%;
+    /* Ajuste o tamanho conforme necessário */
+    /* height: auto; Mantém a proporção da imagem */
+}
+
+/* Estilo do container dos botões de login e cadastro */
+.intro-buttons {
+    display: flex;
+    /* Flexbox para alinhar os botões em linha */
+    justify-content: center;
+    /* Centraliza os botões horizontalmente */
+    gap: 15px;
+    /* Define o espaçamento entre os botões */
+    margin-top: 20px;
+    /* Adiciona espaçamento acima dos botões */
+}
+
+/* Estilo das ondas animadas na parte inferior */
+.waves {
     position: absolute;
+    /* Posiciona as ondas na parte inferior da tela */
     bottom: 0;
     left: 50%;
+    /* Centraliza horizontalmente */
     width: 100vw;
+    /* Largura completa da tela */
     height: 15vh;
+    /* Altura das ondas */
     margin-bottom: -7px;
+    /* Ajusta a posição para sobrepor a parte inferior */
     min-height: 100px;
     max-height: 150px;
     transform: translateX(-50%);
-  }
-  
-  .parallax > use {
-    animation: move-forever 25s cubic-bezier(.55,.5,.45,.5) infinite;
-  }
-  .parallax > use:nth-child(1) {
-    animation-delay: -2s;
-    animation-duration: 7s;
-  }
-  .parallax > use:nth-child(2) {
+    /* Centraliza o SVG */
+}
+
+/* Animação das ondas */
+.parallax>use {
+    animation: move-forever 25s cubic-bezier(.55, .5, .45, .5) infinite;
+    /* Movimento suave e infinito das ondas */
+}
+
+/* Definição dos tempos de animação para cada camada de onda */
+.parallax>use:nth-child(1) {
+    animation-delay: 2s;
+    animation-duration: 70s;
+}
+
+.parallax>use:nth-child(2) {
     animation-delay: -3s;
-    animation-duration: 10s;
-  }
-  .parallax > use:nth-child(3) {
+    animation-duration: 70s;
+}
+
+.parallax>use:nth-child(3) {
     animation-delay: -4s;
-    animation-duration: 13s;
-  }
-  .parallax > use:nth-child(4) {
+    animation-duration: 53s;
+}
+
+.parallax>use:nth-child(4) {
     animation-delay: -5s;
     animation-duration: 20s;
-  }
-  @keyframes move-forever {
-    0% { transform: translateX(-90%) translateY(0); }
-    100% { transform: translateX(85%) translateY(-10px); }
-  }
-  </style>
-  
+}
+
+/* Keyframes da animação que move as ondas */
+@keyframes move-forever {
+    0% {
+        transform: translateX(-90%) translateY(0);
+    }
+
+    /* Posição inicial da onda */
+    100% {
+        transform: translateX(85%) translateY(-10px);
+    }
+
+    /* Posição final da onda */
+}
+
+/* Estilo do nome da empresa ou marca na parte inferior */
+.empressa {
+    margin-top: 150px;
+    /* Espaçamento superior */
+    color: rgb(255, 255, 255);
+    /* Cor do texto em branco */
+}
+</style>
