@@ -33,7 +33,6 @@
             </g>
         </svg>
         <!-- Nome da empresa ou marca -->
-        <p class="empressa">@DiguinhoTech</p>
     </div>
 </template>
 

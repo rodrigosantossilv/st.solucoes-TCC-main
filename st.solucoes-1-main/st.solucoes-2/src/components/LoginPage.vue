@@ -75,7 +75,7 @@ export default {
           text: 'Bem-vindo ao sistema!',
         }).then(() => {
           // Redirecionar para o dashboard
-          this.$router.push('/dashboard');
+          this.$router.push('/openticketpage');
         });
       } else if (this.usuario !== 'admin') {
         this.usuarioInvalido = true;

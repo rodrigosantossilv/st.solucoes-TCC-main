@@ -42,7 +42,7 @@
         <div class="text-center mt-3">
           <p class="mb-0">
             Já tem uma conta? 
-            <router-link to="/" class="btn btn-link">Login</router-link>
+            <router-link to="login" class="btn btn-link">Login</router-link>
           </p>
         </div>
       </div>
