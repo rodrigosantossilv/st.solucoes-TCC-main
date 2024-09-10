@@ -77,6 +77,15 @@ export default {
           // Redirecionar para o dashboard
           this.$router.push('/openticketpage');
         });
+      } else if (this.usuario === 'admin1' && this.password === '123456') {
+        Swal.fire({
+          icon: 'success',
+          title: 'Login realizado!',
+          text: 'Bem-vindo ao sistema!',
+        }).then(() => {
+          // Redirecionar para o dashboard
+          this.$router.push('/kanbanboard');
+        });
       } else if (this.usuario !== 'admin') {
         this.usuarioInvalido = true;
       } else {
