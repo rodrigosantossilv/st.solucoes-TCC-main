@@ -18,16 +18,25 @@
             <b-form-input v-model="numeroSala" id="numero-sala" required></b-form-input>
           </b-form-group>
 
-          <b-form-group label="Selecionar Maquina*" label-for="selecionar-maquina">
-            <b-form-input v-model="SelecionarMaquina" id="selecionar-maquina" required></b-form-input>
+          <b-form-group label="Selecionar Sala*" label-for="SelecionarMaquina*">
+            <b-form-select v-model="categoria" id="SelecionarMaquina" @change="navigateToLugar">
+              <option value="" disabled selected>Selecione uma Sala</option>
+              <option value="salaum">Sala 1</option>
+              <option value="saladois">Sala 2</option>
+              <option value="salatres">Sala 3</option>
+            </b-form-select>
+          </b-form-group>
+
+          <b-form-group label="Selecionar Máquina*" label-for="selecionar-maquina">
+            <b-form-input v-model="codigoMaquina" id="selecionar-maquina" required></b-form-input>
           </b-form-group>
 
           <b-form-group label="Relatar problema*" label-for="relatar-problema">
             <b-form-textarea v-model="relatarProblema" id="relatar-problema" rows="4" required></b-form-textarea>
           </b-form-group>
 
-          <b-form-group label="Categoria" label-for="categoria">
-            <b-form-select v-model="categoria" id="categoria">
+          <b-form-group label="Categoria*" label-for="categoria">
+            <b-form-select v-model="categoriaProblema" id="categoria">
               <option value="" disabled selected>Selecione uma categoria</option>
               <option value="rede">Rede</option>
               <option value="hardware">Hardware</option>
@@ -52,7 +61,15 @@
 
 <script>
 import Swal from 'sweetalert2';
-import { BForm, BFormGroup, BFormInput, BFormTextarea, BFormSelect, BButton, BAlert } from 'bootstrap-vue-3';
+import {
+  BForm,
+  BFormGroup,
+  BFormInput,
+  BFormTextarea,
+  BFormSelect,
+  BButton,
+  BAlert
+} from 'bootstrap-vue-3';
 
 export default {
   components: {
@@ -70,12 +87,18 @@ export default {
       numeroSala: '',
       codigoMaquina: '',
       relatarProblema: '',
-      categoria: '',  // Adicionando a variável para a categoria
+      categoria: '',  // Categoria para a seleção de sala
+      categoriaProblema: '',  // Categoria do problema (rede, hardware, software)
       feedbackMessage: '',
       feedbackVariant: ''
     };
   },
   methods: {
+    navigateToLugar() {
+      if (this.categoria === 'salaum') {
+        this.$router.push('/lugar');  // Redireciona para a rota /lugar
+      }
+    },
     async reportProblem() {
       // Validação de entrada adicional
       if (this.bloco && this.numeroSala && this.codigoMaquina && this.relatarProblema) {
@@ -90,7 +113,7 @@ export default {
               numeroSala: this.numeroSala,
               codigoMaquina: this.codigoMaquina,
               relatarProblema: sanitizedProblem,
-              categoria: this.categoria  // Adicionando a categoria no corpo da requisição
+              categoria: this.categoriaProblema  // Categoria do problema
             })
           });
 
@@ -139,7 +162,8 @@ export default {
       this.numeroSala = '';
       this.codigoMaquina = '';
       this.relatarProblema = '';
-      this.categoria = '';  // Resetando a categoria
+      this.categoria = '';  // Resetando a categoria de sala
+      this.categoriaProblema = '';  // Resetando a categoria do problema
     }
   }
 };
@@ -261,70 +285,5 @@ body, html {
     .corner-img {
         display: none;
     }
-}
-
-/* Adiciona o container das bolhas e define a posição */
-.bubbles {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none; /* Faz com que as bolhas não interfiram na interação com o formulário */
-    overflow: hidden; /* Garante que as bolhas não saiam da área visível */
-}
-
-/* Define o estilo das bolhas */
-.bubble {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    background-color: rgba(0, 123, 255, 0.153); /* Cor das bolhas */
-    border-radius: 50%;
-    animation: float 10s infinite;
-    opacity: 0;
-}
-
-/* Animação das bolhas */
-@keyframes float {
-    0% {
-        transform: translateY(100vh) scale(0);
-        opacity: 0;
-    }
-    50% {
-        transform: translateY(-50vh) scale(1);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(-100vh) scale(0);
-        opacity: 0;
-    }
-}
-
-/* Posiciona as bolhas em locais aleatórios e diferentes tamanhos dentro do lado direito */
-.bubbles .bubble:nth-child(1) {
-    right: 5%;
-    animation-duration: 8s;
-    animation-delay: 0s;
-}
-.bubbles .bubble:nth-child(2) {
-    right: 10%;
-    animation-duration: 10s;
-    animation-delay: 2s;
-}
-.bubbles .bubble:nth-child(3) {
-    right: 15%;
-    animation-duration: 12s;
-    animation-delay: 4s;
-}
-.bubbles .bubble:nth-child(4) {
-    right: 20%;
-    animation-duration: 15s;
-    animation-delay: 6s;
-}
-.bubbles .bubble:nth-child(5) {
-    right: 25%;
-    animation-duration: 20s;
-    animation-delay: 9s;
 }
 </style>
