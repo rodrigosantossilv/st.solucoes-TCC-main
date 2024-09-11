@@ -41,6 +41,7 @@
               <option value="rede">Rede</option>
               <option value="hardware">Hardware</option>
               <option value="software">Software</option>
+              <option value="infraestrutura">Infraestrutura</option>
             </b-form-select>
           </b-form-group>
 
