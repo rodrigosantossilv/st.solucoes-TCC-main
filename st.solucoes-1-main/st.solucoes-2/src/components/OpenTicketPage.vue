@@ -18,8 +18,8 @@
             <b-form-input v-model="numeroSala" id="numero-sala" required></b-form-input>
           </b-form-group>
 
-          <b-form-group label="Código da máquina*" label-for="codigo-maquina">
-            <b-form-input v-model="codigoMaquina" id="codigo-maquina" required></b-form-input>
+          <b-form-group label="Selecionar Maquina*" label-for="selecionar-maquina">
+            <b-form-input v-model="SelecionarMaquina" id="selecionar-maquina" required></b-form-input>
           </b-form-group>
 
           <b-form-group label="Relatar problema*" label-for="relatar-problema">
