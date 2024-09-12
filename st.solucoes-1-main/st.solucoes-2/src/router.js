@@ -5,6 +5,7 @@ import RegisterPage from './components/RegisterPage.vue';
 import KanbanBoard from './components/KanbanBoard.vue';
 import OpenTicketPage from './components/OpenTicketPage.vue';
 import Lugares from './components/Lugares.vue';
+import HomePage from './components/HomePage.vue';
 
 const routes = [
   { path: '/', component: Telaum },
@@ -12,7 +13,9 @@ const routes = [
   { path: '/register', component: RegisterPage },
   { path: '/kanbanboard', component: KanbanBoard },
   { path: '/openticketpage', component: OpenTicketPage},
-  { path: '/lugar', component: Lugares}
+  { path: '/lugar', component: Lugares},
+  { path: '/home', component: HomePage}
+
 ];
 
 const router = createRouter({

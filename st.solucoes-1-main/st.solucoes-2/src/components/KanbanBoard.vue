@@ -15,7 +15,7 @@
         <h2>Menu</h2>
         <ul class="nav-list">
           <li class="nav-item">
-            <a @click="mostrarHome" href="#" class="nav-link">Home</a>
+            <a @click="HomePage" href="Home" class="nav-link">Home</a>
           </li>
           <li class="nav-item">
             <a @click="mostrarChamados" href="#" class="nav-link">Chamados</a>
@@ -155,6 +155,8 @@
 </template>
 
 <script>
+import HomePage from './HomePage.vue';
+
 export default {
   data() {
     return {
@@ -182,7 +184,7 @@ export default {
       this.chamados = await resposta.json();
     },
     mostrarHome() {
-      this.paginaAtual = 'home';
+      this.paginaAtual = 'Home';
     },
     mostrarChamados() {
       this.paginaAtual = 'kanban';
