@@ -1,7 +1,17 @@
 <template>
   <div class="login-container">
     <div class="left-side">
+      <!-- Container das bolhas -->
+      <div class="bubbles">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+      </div>
+      <!-- Imagem do logotipo -->
       <img src="/images/ST.png" alt="Logotipo" />
+      <!-- Imagem no canto -->
       <img src="/images/circulos.png" alt="Circles" class="corner-img" />
     </div>
 
@@ -59,7 +69,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import Swal from 'sweetalert2';
 import {
@@ -169,122 +178,196 @@ export default {
   }
 };
 </script>
-
 <style scoped>
 /* Reset básico */
 body, html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, sans-serif;
 }
 
-/* Container de login */
+/* Container de registro */
 .login-container {
-    display: flex;
-    height: 100vh;
+  display: flex;
+  height: 100vh;
+  position: relative; /* Necessário para a posição absoluta das bolhas */
 }
 
-/* Lado esquerdo - Imagem com gradiente */
+/* Lado esquerdo - Imagem com gradiente e bolhas */
 .left-side {
-    flex: 1;
-    background: linear-gradient(to bottom, #0575E6, #02298A, #021B79);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+  flex: 1;
+  background: linear-gradient(to bottom, #0575E6, #02298A, #021B79);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden; /* Garante que as bolhas fiquem dentro do lado esquerdo */
 }
 
-/* Lado direito - Formulário de login */
+/* Lado direito - Formulário de registro */
 .right-side {
-    flex: 2;
-    background-color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  flex: 2;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
-/* Caixa de login */
+/* Caixa de registro */
 .login-box {
-    width: 85%;
-    max-width: 400px;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+  width: 85%;
+  max-width: 400px;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
 }
 
 /* Estilo do título */
 .login-box h2 {
-    margin-bottom: 20px;
-    text-align: center;
-    color: blue;
+  margin-bottom: 20px;
+  text-align: center;
+  color: blue;
 }
 
-/* Estilo dos inputs */
+/* Estilo dos inputs e textarea */
 .login-box input,
-.login-box textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 15px;
-    box-sizing: border-box;
+.login-box textarea,
+.login-box select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  box-sizing: border-box;
 }
 
-/* Botão de login */
+/* Botão de envio */
 .login-box button {
-    width: 100%;
-    padding: 11px;
-    background-color: rgb(8, 91, 143);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  width: 100%;
+  padding: 11px;
+  background-color: rgb(8, 91, 143);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 /* Efeito de hover no botão */
 .login-box button:hover {
-    background-color: rgb(11, 55, 135);
+  background-color: rgb(11, 55, 135);
 }
 
-/* Estilo do link "Crie uma" */
+/* Estilo do link */
 .login-box .btn-link {
-    color: rgb(8, 91, 143);
-    text-decoration: none;
+  color: rgb(8, 91, 143);
+  text-decoration: none;
 }
 
 .login-box .btn-link:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 /* Imagem no canto */
 .corner-img {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 750px;
-    height: auto;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 750px;
+  height: auto;
 }
 
 /* Responsividade adicional */
 @media (max-width: 768px) {
-    .login-container {
-        flex-direction: column;
-    }
+  .login-container {
+    flex-direction: column;
+  }
 
-    .left-side {
-        display: none;
-    }
+  .left-side {
+    display: none;
+  }
 
-    .right-side {
-        flex: 1;
-    }
+  .right-side {
+    flex: 1;
+  }
 
-    .corner-img {
-        display: none;
-    }
+  .corner-img {
+    display: none;
+  }
 }
+
+/* Animação das bolhas no lado esquerdo */
+.bubbles {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1; /* Garante que as bolhas fiquem atrás do conteúdo principal */
+}
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2); /* Cor sutil para as bolhas */
+  animation: bubble 5s infinite; /* Animação contínua */
+}
+
+/* Ajuste das bolhas no lado esquerdo */
+.left-side .bubbles .bubble:nth-child(1) {
+  width: 60px;
+  height: 60px;
+  left: 10%;
+  bottom: -100px;
+  animation-duration: 7s;
+}
+
+.left-side .bubbles .bubble:nth-child(2) {
+  width: 100px;
+  height: 100px;
+  left: 30%;
+  bottom: -150px;
+  animation-duration: 9s;
+}
+
+.left-side .bubbles .bubble:nth-child(3) {
+  width: 80px;
+  height: 80px;
+  left: 50%;
+  bottom: -200px;
+  animation-duration: 6s;
+}
+
+.left-side .bubbles .bubble:nth-child(4) {
+  width: 120px;
+  height: 120px;
+  left: 70%;
+  bottom: -250px;
+  animation-duration: 8s;
+}
+
+.left-side .bubbles .bubble:nth-child(5) {
+  width: 90px;
+  height: 90px;
+  left: 80%;
+  bottom: -300px;
+  animation-duration: 10s;
+}
+
+@keyframes bubble {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-1000px) scale(0);
+    opacity: 0;
+  }
+}
+
 </style>

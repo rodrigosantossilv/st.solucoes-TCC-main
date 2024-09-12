@@ -3,7 +3,7 @@
         <!-- Cabeçalho principal contendo o logotipo e o título -->
         <div class="intro-header">
             <!-- Logotipo da empresa -->
-            <img src="/images/ST.png" alt="Logotipo" class="logo" />
+            <img src="/images/ST-nova.png" alt="Logotipo" class="logo" />
         </div>
         <!-- Container para os botões de login e cadastro -->
         <div class="intro-buttons">
@@ -91,7 +91,7 @@ html {
 
 /* Estilo da imagem do logotipo, ajustando o tamanho */
 .logo {
-    width: 30%;
+    width: 25%;
     /* Ajuste o tamanho conforme necessário */
     /* height: auto; Mantém a proporção da imagem */
 }
@@ -102,10 +102,32 @@ html {
     /* Flexbox para alinhar os botões em linha */
     justify-content: center;
     /* Centraliza os botões horizontalmente */
-    gap: 15px;
-    /* Define o espaçamento entre os botões */
-    margin-top: 20px;
+    gap: 15px; /* Define o espaçamento entre os botões */
+    margin-top: 2px;
     /* Adiciona espaçamento acima dos botões */
+}
+
+.intro-buttons button {
+    background: rgb(0,172,238);
+    background: linear-gradient(0deg, rgb(19, 154, 207) 0%, rgba(2,126,251,1) 100%);
+    width: 150px;
+    height: 42px;
+    line-height: 40px; /* Ajustado para ficar centralizado */
+    padding: 0;
+    border: none; /* Remove a borda padrão */
+    color: white; /* Cor do texto */
+    text-align: center; /* Centraliza o texto dentro do botão */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    border-radius: 5px; /* Arredonda os cantos do botão */
+    transition: all 0.3s ease-in-out; /* Transição suave para todas as propriedades */
+}
+
+.intro-buttons button:hover {
+    background: rgb(2,126,251);
+    color: black;
+    background: linear-gradient(0deg, rgb(255, 255, 255) 0%, rgb(216, 235, 243) 100%);
+    transform: scale(1.05); /* Aumenta o tamanho do botão */
+    box-shadow: 3 8px 8px rgba(0,0,0,0.3); /* Adiciona sombra para efeito de elevação */
 }
 
 /* Estilo das ondas animadas na parte inferior */

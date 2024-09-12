@@ -5,6 +5,15 @@
       <div class="left-side">
         <img src="/images/ST.png" alt="Logotipo" />
         <img src="/images/circulos.png" alt="Circles" class="corner-img" />
+        
+        <!-- Bubbles Animation (opcional) -->
+        <div class="bubbles">
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+        </div>
       </div>
 
       <div class="right-side">
@@ -27,15 +36,6 @@
               <router-link to="/register" class="btn btn-link">Crie uma</router-link>
             </p>
           </div>
-        </div>
-
-        <!-- Bubbles Animation (opcional) -->
-        <div class="bubbles">
-          <div class="bubble"></div>
-          <div class="bubble"></div>
-          <div class="bubble"></div>
-          <div class="bubble"></div>
-          <div class="bubble"></div>
         </div>
       </div>
     </div>
@@ -100,7 +100,6 @@ export default {
 </script>
 
 <style scoped>
-/* Seu CSS permanece o mesmo */
 /* Reset básico */
 body, html {
   margin: 0;
@@ -114,6 +113,7 @@ body, html {
 .login-container {
   display: flex;
   height: 100vh;
+  position: relative; /* Necessário para a posição absoluta das bolhas */
 }
 
 /* Lado esquerdo - Imagem com gradiente */
@@ -133,6 +133,7 @@ body, html {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative; /* Necessário para a posição absoluta das bolhas */
 }
 
 /* Caixa de login */
@@ -251,16 +252,17 @@ body, html {
   height: 100%;
   pointer-events: none;
   overflow: hidden;
-  z-index: 1;
+  z-index: 1; /* Garante que as bolhas fiquem atrás do conteúdo principal */
 }
 
 .bubble {
   position: absolute;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  animation: bubble 5s infinite;
+  background: rgba(255, 255, 255, 0.2); /* Cor sutil para as bolhas */
+  animation: bubble 5s infinite; /* Animação contínua */
 }
 
+/* Ajuste das bolhas */
 .bubble:nth-child(1) {
   width: 60px;
   height: 60px;
@@ -311,4 +313,24 @@ body, html {
     opacity: 0;
   }
 }
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+  }
+
+  .left-side {
+    display: none;
+  }
+
+  .right-side {
+    flex: 1;
+  }
+
+  .corner-img {
+    display: none;
+  }
+}
+
 </style>
