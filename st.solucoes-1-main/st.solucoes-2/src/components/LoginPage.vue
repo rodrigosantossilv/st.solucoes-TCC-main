@@ -24,9 +24,14 @@
           <div class="password-container">
             <input :type="passwordFieldType" placeholder="Senha" v-model="password" />
             <i @click="togglePasswordVisibility" class="password-icon">
-              <span v-if="passwordFieldType === 'password'">👁️</span>
-              <span v-else>👁️‍🗨️</span>
-            </i>
+  <span v-if="passwordFieldType === 'password'">
+    <img src="/images/olho.png" alt="Olho" class="eye-icon" />
+  </span>
+  <span v-else>
+    <img src="/images/fechado.png" alt="Fechado" class="eye-icon" />
+  </span>
+</i>
+
           </div>
           <p v-if="senhaInvalida" class="error-text">Senha inválida!</p>
           <button @click="login">Login</button>
@@ -96,7 +101,9 @@ export default {
       this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
     },
   },
+  
 };
+
 </script>
 
 <style scoped>
@@ -150,7 +157,7 @@ body, html {
 .login-box h2 {
   margin-bottom: 20px;
   text-align: center;
-  color: blue;
+  color: #0738b3;
 }
 
 /* Estilo dos inputs */
@@ -158,7 +165,7 @@ body, html {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #b2b0b0;
   border-radius: 15px;
   box-sizing: border-box;
 }
@@ -167,8 +174,8 @@ body, html {
 .login-box button {
   width: 100%;
   padding: 11px;
-  background-color: rgb(8, 91, 143);
-  color: white;
+  background-color: #02298A;
+  color: rgb(255, 255, 255);
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -177,7 +184,7 @@ body, html {
 
 /* Efeito de hover no botão */
 .login-box button:hover {
-  background-color: rgb(11, 55, 135);
+  background-color: #2059ea;
 }
 
 /* Estilo do link */
@@ -331,6 +338,11 @@ body, html {
   .corner-img {
     display: none;
   }
+}
+.eye-icon {
+  width: 30px; /* Ajuste para o tamanho desejado */
+  height: 30px; /* Ajuste para o tamanho desejado */
+  cursor: pointer;
 }
 
 </style>

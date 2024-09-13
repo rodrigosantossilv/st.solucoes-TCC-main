@@ -17,50 +17,80 @@
 
     <div class="right-side">
       <div class="login-box">
-        <h2>Informe seu problema</h2>
+        <h2>Ola ,Informe seu problema</h2>
 
-        <b-form @submit.prevent="reportProblem">
-          <b-form-group label="Bloco da sala*" label-for="bloco">
-            <b-form-input v-model="bloco" id="bloco" required></b-form-input>
+        <b-form-group label="Categoria*" label-for="categoria">
+            <b-form-select v-model="categoriaProblema" id="categoria">
+              <option value="" disabled selected>Selecione uma categoria</option>
+              <option value="rede">Internet</option>
+              <option value="hardware">Computador</option>
+              <option value="software">Programas</option>
+            </b-form-select>
           </b-form-group>
-
-          <b-form-group label="Número da sala*" label-for="numero-sala">
-            <b-form-input v-model="numeroSala" id="numero-sala" required></b-form-input>
-          </b-form-group>
-
-          <b-form-group label="Selecionar Sala*" label-for="SelecionarMaquina*">
-            <b-form-select v-model="categoria" id="SelecionarMaquina" @change="navigateToLugar">
-              <option value="" disabled selected>Selecione uma Sala</option>
-              <option value="salaum">Sala 1</option>
-              <option value="saladois">Sala 2</option>
-              <option value="salatres">Sala 3</option>
+          
+        <b-form-group label="Bloco da sala*" label-for="blocodasala">
+            <b-form-select v-model="blocodaSala" id="blocodasala">
+              <option value="" disabled selected>Selecione um Bloco da sala</option>
+              <option value="BlocoE">Bloco E</option>
+              <option value="Noa">NOA</option>
+              <option value="BlocoE">Bloco E</option>
+              <option value="BlocoC">Bloco C</option>
+              <option value="BlocoF">Bloco F</option>
             </b-form-select>
           </b-form-group>
 
-          <b-form-group label="Selecionar Máquina*" label-for="selecionar-maquina">
-            <b-form-input v-model="codigoMaquina" id="selecionar-maquina" required></b-form-input>
+          <b-form-group label="Número da sala*" label-for="numerodasala">
+            <b-form-select v-model="numerodaSala" id="numerodasala">
+              <option value="" disabled selected>Selecione o Número da Sala</option>
+              <option value="BlocoE1">Bloco E ,sala 1</option>
+              <option value="BlocoE2">Bloco E ,sala 2</option>
+              <option value="BlocoE3">Bloco E ,sala 3</option>
+              <option value="BlocoE4">Bloco E ,sala 4</option>
+              <option value="BlocoE5">Bloco E ,sala 5</option>
+              <option value="BlocoE6">Bloco E ,sala 6</option>
+              <option value="BlocoE7">Bloco E ,sala 7</option>
+              <option value="BlocoE8">Bloco E ,sala 8</option>
+              <option value="BlocoE9">Bloco E ,sala 9</option>
+              <option value="BlocoE10">Bloco E ,sala10</option>
+
+              <option value="BlocoC1">Bloco C ,sala 1</option>
+              <option value="BlocoC2">Bloco C ,sala 2</option>
+              <option value="BlocoC3">Bloco C ,sala 3</option>
+              <option value="BlocoC4">Bloco C ,sala 4</option>
+              <option value="BlocoC5">Bloco C ,sala 5</option>
+              <option value="BlocoC6">Bloco C ,sala 6</option>
+              <option value="BlocoC7">Bloco C ,sala 7</option> 
+              <option value="BlocoC8">Bloco C ,sala 8</option>
+              <option value="BlocoC9">Bloco C ,sala 9</option>
+            
+
+
+              <option value="BlocoF11">Bloco F ,sala 11</option>
+              <option value="BlocoF13">Bloco F ,sala 13</option>
+              <option value="BlocoF15">Bloco F ,sala 15</option>
+              <option value="BlocoF18">Bloco F ,sala 18</option>
+            </b-form-select>
           </b-form-group>
 
+      <!-- Botão "Selecionar Máquina" -->
+      <b-form-group label="Selecionar Maquina" label-for="SelecionarMaquina">
+          <b-button id="SelecionarMaquina" variant="primary" @click="navigateToLugar">
+            Selecionar Máquina
+          </b-button>
+        </b-form-group>
+
+
+        
+
+         
           <b-form-group label="Relatar problema*" label-for="relatar-problema">
             <b-form-textarea v-model="relatarProblema" id="relatar-problema" rows="4" required></b-form-textarea>
           </b-form-group>
 
-          <b-form-group label="Categoria*" label-for="categoria">
-            <b-form-select v-model="categoriaProblema" id="categoria">
-              <option value="" disabled selected>Selecione uma categoria</option>
-              <option value="rede">Rede</option>
-              <option value="hardware">Hardware</option>
-              <option value="software">Software</option>
-              <option value="infraestrutura">Infraestrutura</option>
-            </b-form-select>
-          </b-form-group>
 
           <b-button type="submit" variant="primary">Relatar Problema</b-button>
 
-          <div id="feedback" class="mt-2">
-            <b-alert v-if="feedbackMessage" :variant="feedbackVariant">{{ feedbackMessage }}</b-alert>
-          </div>
-        </b-form>
+        
 
         <div class="text-center mt-3">
           <router-link to="/" class="btn btn-link">Voltar à página inicial</router-link>
@@ -69,89 +99,73 @@
     </div>
   </div>
 </template>
+
 <script>
 import Swal from 'sweetalert2';
 import {
   BForm,
   BFormGroup,
-  BFormInput,
   BFormTextarea,
   BFormSelect,
-  BButton,
-  BAlert
+  BButton
 } from 'bootstrap-vue-3';
 
 export default {
   components: {
     BForm,
     BFormGroup,
-    BFormInput,
     BFormTextarea,
     BFormSelect,
-    BButton,
-    BAlert
+    BButton
   },
   data() {
     return {
-      bloco: '',
-      numeroSala: '',
-      codigoMaquina: '',
-      relatarProblema: '',
-      categoria: '',  // Categoria para a seleção de sala
-      categoriaProblema: '',  // Categoria do problema (rede, hardware, software)
-      feedbackMessage: '',
-      feedbackVariant: ''
+      categoriaProblema: '',
+      blocodaSala: '',
+      numerodaSala: '',
+      relatarProblema: ''
     };
   },
   methods: {
     navigateToLugar() {
-      if (this.categoria === 'salaum') {
-        this.$router.push('/lugar');  // Redireciona para a rota /lugar
-      }
+      // Certifique-se de que esta rota existe e está configurada no Vue Router
+      this.$router.push('/lugar');
     },
     async reportProblem() {
-      // Validação de entrada adicional
-      if (this.bloco && this.numeroSala && this.codigoMaquina && this.relatarProblema) {
+      // Validação e relatórios do problema
+      if (this.blocodaSala && this.numerodaSala && this.relatarProblema) {
         const sanitizedProblem = this.sanitizeInput(this.relatarProblema);
-
         try {
           const response = await fetch('http://localhost:3000/report-problem', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              bloco: this.bloco,
-              numeroSala: this.numeroSala,
-              codigoMaquina: this.codigoMaquina,
+              bloco: this.blocodaSala,
+              numeroSala: this.numerodaSala,
               relatarProblema: sanitizedProblem,
-              categoria: this.categoriaProblema  // Categoria do problema
+              categoria: this.categoriaProblema
             })
           });
 
           if (response.ok) {
-            this.feedbackMessage = 'Seu problema foi relatado com sucesso!';
-            this.feedbackVariant = 'success';
+            this.resetForm();
             Swal.fire({
               title: 'Ótimo trabalho!',
               text: 'Seu problema foi relatado com sucesso!',
               icon: 'success'
             });
-            this.resetForm();
           } else {
             const data = await response.json();
-            this.feedbackMessage = `Erro ao relatar problema: ${data.error}`;
-            this.feedbackVariant = 'danger';
             Swal.fire({
               title: 'Erro!',
-              text: 'Houve um problema ao relatar o seu problema. Tente novamente mais tarde.',
+              text: `Erro ao relatar problema: ${data.error}`,
               icon: 'error'
             });
           }
         } catch (error) {
-          this.feedbackMessage = `Erro ao conectar ao servidor: ${error.message}`;
-          this.feedbackVariant = 'danger';
           Swal.fire({
             title: 'Erro!',
-            text: 'Erro ao conectar ao servidor: ' + error.message,
+            text: `Erro ao conectar ao servidor: ${error.message}`,
             icon: 'error'
           });
         }
@@ -164,16 +178,13 @@ export default {
       }
     },
     sanitizeInput(input) {
-      // Função de sanitização simples para remover caracteres indesejados
       return input.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     },
     resetForm() {
-      this.bloco = '';
-      this.numeroSala = '';
-      this.codigoMaquina = '';
+      this.blocodaSala = '';
+      this.numerodaSala = '';
       this.relatarProblema = '';
-      this.categoria = '';  // Resetando a categoria de sala
-      this.categoriaProblema = '';  // Resetando a categoria do problema
+      this.categoriaProblema = '';
     }
   }
 };
@@ -219,7 +230,7 @@ body, html {
 /* Caixa de registro */
 .login-box {
   width: 85%;
-  max-width: 400px;
+  max-width: 600px;
   padding: 40px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -230,7 +241,7 @@ body, html {
 .login-box h2 {
   margin-bottom: 20px;
   text-align: center;
-  color: blue;
+  color: #0738b3;
 }
 
 /* Estilo dos inputs e textarea */
@@ -249,7 +260,7 @@ body, html {
 .login-box button {
   width: 100%;
   padding: 11px;
-  background-color: rgb(8, 91, 143);
+  background-color:  #02298A;
   color: white;
   border: none;
   border-radius: 10px;
@@ -259,7 +270,7 @@ body, html {
 
 /* Efeito de hover no botão */
 .login-box button:hover {
-  background-color: rgb(11, 55, 135);
+  background-color: #2059ea;
 }
 
 /* Estilo do link */

@@ -67,7 +67,7 @@ body, html {
 /* Cabeçalho */
 .header {
   width: 100%;
-  background: #333;
+  background: #0575E6 ;
   color: #fff;
   padding: 10px 20px;
   display: flex;
@@ -94,7 +94,7 @@ body, html {
 /* Sidebar */
 .sidebar {
   width: 200px;
-  background: #f4f4f4;
+  background:linear-gradient(to bottom, #0575E6, #02298A, #021B79);
   padding: 15px;
   height: 100vh;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -116,7 +116,7 @@ body, html {
 
 .nav-link {
   text-decoration: none;
-  color: #333;
+  color: #ffffff;
   font-size: 18px;
   display: block;
   padding: 10px;

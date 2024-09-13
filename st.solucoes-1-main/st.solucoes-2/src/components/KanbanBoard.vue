@@ -233,7 +233,7 @@ body, html {
 /* Cabeçalho */
 .header {
     width: 100%;
-    background: #333;
+    background:  #0575E6 ;
     color: #fff;
     padding: 10px 20px;
     display: flex;
@@ -260,7 +260,7 @@ body, html {
 /* Sidebar */
 .sidebar {
     width: 200px;
-    background: #f4f4f4;
+    background: linear-gradient(to bottom, #0575E6, #02298A, #021B79);
     padding: 15px;
     height: 100vh;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -281,7 +281,7 @@ body, html {
 
 .nav-link {
     text-decoration: none;
-    color: #333;
+    color: #ffffff;
     font-size: 18px;
     display: block;
     padding: 10px;
@@ -312,11 +312,11 @@ body, html {
 }
 
 .kanban-column {
-    background: #fff;
+    background: #ece8e8;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 15px;
-    width: 300px;
+    width: 500px;
     margin-right: 20px;
     flex: 0 0 auto;
 }
@@ -334,7 +334,7 @@ body, html {
 }
 
 .kanban-header {
-    font-size: 20px;
+    font-size: 25px;
     margin-bottom: 15px;
 }
 

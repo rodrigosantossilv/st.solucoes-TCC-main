@@ -24,22 +24,31 @@
           <input type="text" v-model="cep" placeholder="CEP" v-mask="'###.###.###-##'" @blur="fetchCep" required />
           <input type="email" v-model="email" placeholder="Email" required />
           <input type="email" v-model="confirmEmail" placeholder="Confirmar email" required />
-          
           <div class="password-container">
-            <input :type="senhaFieldType" v-model="senha" placeholder="Senha" required @paste.prevent />
-            <i @click="toggleSenhaVisibility" class="password-icon">
-              <span v-if="senhaFieldType === 'password'" class="icon">👁</span>
-              <span v-else class="icon">👁</span>
-            </i>
-          </div>
-          
-          <div class="password-container">
-            <input :type="confirmSenhaFieldType" v-model="confirmSenha" placeholder="Confirmar senha" required @paste.prevent />
-            <i @click="toggleConfirmSenhaVisibility" class="password-icon">
-              <span v-if="confirmSenhaFieldType === 'password'" class="icon">👁</span>
-              <span v-else class="icon">👁</span>
-            </i>
-          </div>
+  <input :type="senhaFieldType" v-model="senha" placeholder="Senha" required @paste.prevent />
+  <i @click="toggleSenhaVisibility" class="password-icon">
+    <span v-if="senhaFieldType === 'password'">
+      <img src="/images/olho.png" alt="Olho" class="eye-icon" />
+    </span>
+    <span v-else>
+      <img src="/images/fechado.png" alt="Fechado" class="eye-icon" />
+    </span>
+  </i>
+</div>
+
+<div class="password-container">
+  <input :type="confirmSenhaFieldType" v-model="confirmSenha" placeholder="Confirmar senha" required @paste.prevent />
+  <i @click="toggleConfirmSenhaVisibility" class="password-icon">
+    <span v-if="confirmSenhaFieldType === 'password'">
+      <img src="/images/olho.png" alt="Olho" class="eye-icon" />
+    </span>
+    <span v-else>
+      <img src="/images/fechado.png" alt="Fechado" class="eye-icon" />
+    </span>
+  </i>
+</div>
+
+     
 
           <button type="submit">Cadastrar</button>
 
@@ -192,7 +201,7 @@ body, html {
 .register-box h2 {
   margin-bottom: 20px;
   text-align: center;
-  color: blue;
+  color:  #0738b3;
 }
 
 /* Estilo dos inputs */
@@ -209,7 +218,7 @@ body, html {
 .register-box button {
   width: 100%;
   padding: 11px;
-  background-color: rgb(8, 91, 143);
+  background-color: #02298A;
   color: white;
   border: none;
   border-radius: 10px;
@@ -219,7 +228,7 @@ body, html {
 
 /* Efeito de hover no botão */
 .register-box button:hover {
-  background-color: rgb(11, 55, 135);
+  background-color: #2059ea;
 }
 
 /* Estilo do link */
@@ -374,6 +383,11 @@ body, html {
   .corner-img {
     display: none;
   }
+}
+.eye-icon {
+  width: 30px; /* Ajuste para o tamanho desejado */
+  height: 30px; /* Ajuste para o tamanho desejado */
+  cursor: pointer;
 }
 
 </style>

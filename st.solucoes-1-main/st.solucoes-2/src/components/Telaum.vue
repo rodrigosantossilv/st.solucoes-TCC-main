@@ -108,17 +108,17 @@ html {
 }
 
 .intro-buttons button {
-    background: rgb(0,172,238);
-    background: linear-gradient(0deg, rgb(19, 154, 207) 0%, rgba(2,126,251,1) 100%);
+    background: rgb(7, 50, 192);
+    background: linear-gradient(0deg, rgb(5, 58, 204) 0%, rgb(3, 79, 220) 100%);
     width: 150px;
-    height: 42px;
+    height: 45px;
     line-height: 40px; /* Ajustado para ficar centralizado */
     padding: 0;
-    border: none; /* Remove a borda padrão */
+    border:#02298A; /* Remove a borda padrão */
     color: white; /* Cor do texto */
     text-align: center; /* Centraliza o texto dentro do botão */
     cursor: pointer; /* Muda o cursor para indicar que é clicável */
-    border-radius: 5px; /* Arredonda os cantos do botão */
+    border-radius: 10px; /* Arredonda os cantos do botão */
     transition: all 0.3s ease-in-out; /* Transição suave para todas as propriedades */
 }
 
