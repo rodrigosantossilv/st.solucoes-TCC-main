@@ -1,7 +1,6 @@
 <template>
   <div class="login-container">
     <div class="left-side">
-      <!-- Container das bolhas -->
       <div class="bubbles">
         <div class="bubble"></div>
         <div class="bubble"></div>
@@ -9,88 +8,64 @@
         <div class="bubble"></div>
         <div class="bubble"></div>
       </div>
-      <!-- Imagem do logotipo -->
       <img src="/images/ST.png" alt="Logotipo" />
-      <!-- Imagem no canto -->
       <img src="/images/circulos.png" alt="Circles" class="corner-img" />
     </div>
 
     <div class="right-side">
       <div class="login-box">
-        <h2>Ola ,Informe seu problema</h2>
+        <h2>Olá, Informe seu problema</h2>
 
-        <b-form-group label="Categoria*" label-for="categoria">
-            <b-form-select v-model="categoriaProblema" id="categoria">
-              <option value="" disabled selected>Selecione uma categoria</option>
-              <option value="rede">Internet</option>
-              <option value="hardware">Computador</option>
-              <option value="software">Programas</option>
-            </b-form-select>
-          </b-form-group>
-          
+        <b-form-group label="Problema*" label-for="problema">
+          <b-form-select v-model="problema" id="problema">
+            <option value="" disabled>Selecione o seu problema:</option>
+            <option value="Arcondicionado">Ar condicionado</option>
+            <option value="Projetores">Projetores</option>
+            <option value="CaixadeSom">Caixa de som</option>
+            <option value="Iluminaçãodoambiente">Iluminação do ambiente</option>
+            <option value="Mobiliário">Mobiliário</option>
+            <option value="Computadoresdolaboratório">Computadores do laboratório</option>
+            <option value="SoftwareseProgramasEspecíficos">Softwares e programas específicos</option>
+            <option value="DisposiçãoDosEquipamentosnoAmbiente">Disposição dos equipamentos no ambiente</option>
+            <option value="Internet">Internet</option>
+            <option value="Outro">Outro</option>
+          </b-form-select>
+        </b-form-group>
+
+        <b-form-group v-if="problema === 'Outro'" label="Descreva o problema*" label-for="outro">
+          <b-form-textarea v-model="Outro" id="outro" rows="4" required></b-form-textarea>
+        </b-form-group>
+
         <b-form-group label="Bloco da sala*" label-for="blocodasala">
-            <b-form-select v-model="blocodaSala" id="blocodasala">
-              <option value="" disabled selected>Selecione um Bloco da sala</option>
-              <option value="BlocoE">Bloco E</option>
-              <option value="Noa">NOA</option>
-              <option value="BlocoE">Bloco E</option>
-              <option value="BlocoC">Bloco C</option>
-              <option value="BlocoF">Bloco F</option>
-            </b-form-select>
-          </b-form-group>
+          <b-form-select v-model="blocodaSala" id="blocodasala" @change="updateSalas">
+            <option value="" disabled>Selecione um Bloco da sala</option>
+            <option value="BlocoA">Bloco A</option>
+            <option value="BlocoB">Bloco B</option>
+            <option value="BlocoC">Bloco C</option>
+            <option value="BlocoD">Bloco D</option>
+            <option value="BlocoE">Bloco E</option>
+            <option value="BlocoF">Bloco F</option>
+            <option value="BlocoG">Bloco G</option>
+            <option value="BlocoH">Bloco H</option>
+          </b-form-select>
+        </b-form-group>
 
-          <b-form-group label="Número da sala*" label-for="numerodasala">
-            <b-form-select v-model="numerodaSala" id="numerodasala">
-              <option value="" disabled selected>Selecione o Número da Sala</option>
-              <option value="BlocoE1">Bloco E ,sala 1</option>
-              <option value="BlocoE2">Bloco E ,sala 2</option>
-              <option value="BlocoE3">Bloco E ,sala 3</option>
-              <option value="BlocoE4">Bloco E ,sala 4</option>
-              <option value="BlocoE5">Bloco E ,sala 5</option>
-              <option value="BlocoE6">Bloco E ,sala 6</option>
-              <option value="BlocoE7">Bloco E ,sala 7</option>
-              <option value="BlocoE8">Bloco E ,sala 8</option>
-              <option value="BlocoE9">Bloco E ,sala 9</option>
-              <option value="BlocoE10">Bloco E ,sala10</option>
+        <b-form-group v-if="blocodaSala" label="Selecionar sala*" label-for="sala">
+          <b-form-select v-model="numerodaSala" id="sala">
+            <option value="" disabled>Selecione a Sala</option>
+            <option v-for="sala in salas" :key="sala" :value="sala">{{ sala }}</option>
+          </b-form-select>
+        </b-form-group>
 
-              <option value="BlocoC1">Bloco C ,sala 1</option>
-              <option value="BlocoC2">Bloco C ,sala 2</option>
-              <option value="BlocoC3">Bloco C ,sala 3</option>
-              <option value="BlocoC4">Bloco C ,sala 4</option>
-              <option value="BlocoC5">Bloco C ,sala 5</option>
-              <option value="BlocoC6">Bloco C ,sala 6</option>
-              <option value="BlocoC7">Bloco C ,sala 7</option> 
-              <option value="BlocoC8">Bloco C ,sala 8</option>
-              <option value="BlocoC9">Bloco C ,sala 9</option>
-            
-
-
-              <option value="BlocoF11">Bloco F ,sala 11</option>
-              <option value="BlocoF13">Bloco F ,sala 13</option>
-              <option value="BlocoF15">Bloco F ,sala 15</option>
-              <option value="BlocoF18">Bloco F ,sala 18</option>
-            </b-form-select>
-          </b-form-group>
-
-      <!-- Botão "Selecionar Máquina" -->
-      <b-form-group label="Selecionar Maquina" label-for="SelecionarMaquina">
+        <b-form-group v-if="problema === 'Computadoresdolaboratório'" label="Selecionar Máquina" label-for="SelecionarMaquina">
           <b-button id="SelecionarMaquina" variant="primary" @click="navigateToLugar">
             Selecionar Máquina
           </b-button>
         </b-form-group>
 
-
-        
-
-         
-          <b-form-group label="Relatar problema*" label-for="relatar-problema">
-            <b-form-textarea v-model="relatarProblema" id="relatar-problema" rows="4" required></b-form-textarea>
-          </b-form-group>
-
-
-          <b-button type="submit" variant="primary">Relatar Problema</b-button>
-
-        
+        <b-button type="submit" variant="primary" @click="reportProblem">
+          Relatar Problema
+        </b-button>
 
         <div class="text-center mt-3">
           <router-link to="/" class="btn btn-link">Voltar à página inicial</router-link>
@@ -102,13 +77,7 @@
 
 <script>
 import Swal from 'sweetalert2';
-import {
-  BForm,
-  BFormGroup,
-  BFormTextarea,
-  BFormSelect,
-  BButton
-} from 'bootstrap-vue-3';
+import { BForm, BFormGroup, BFormTextarea, BFormSelect, BButton } from 'bootstrap-vue-3';
 
 export default {
   components: {
@@ -116,79 +85,134 @@ export default {
     BFormGroup,
     BFormTextarea,
     BFormSelect,
-    BButton
+    BButton,
   },
   data() {
     return {
-      categoriaProblema: '',
+      problema: '',
+      Outro: '',
       blocodaSala: '',
       numerodaSala: '',
-      relatarProblema: ''
+      salas: [],
+      blocos: {
+  BlocoA: [
+    "Lab. de acionamento mezanino - Térreo",
+    "Eletrotécnica - Térreo",
+    "Hidráulica e pneumática - Térreo",
+    "Automação industrial - Térreo",
+    "Automação predial - Térreo",
+  ],
+  BlocoB: ["Lab. Química - Térreo"],
+  BlocoC: [
+    "Lab. Mecânica industrial - Térreo",
+    "Lab. de Hidráulica e Pneumática - Térreo",
+    "Lab. Torno - Térreo",
+  ],
+  BlocoD: [
+    "Laboratório - Térreo",
+    "Sala 01 - Térreo",
+    "Lab Maker - Térreo",
+  ],
+  BlocoE: [
+    "Sala 01 - Térreo",
+    "Sala 1.1 - Térreo",
+    "Sala 1.2 - Térreo",
+    "Sala 02 - Térreo",
+    "Sala 03 - Térreo",
+    "Sala 04 - Térreo",
+    "Sala 05 - Térreo",
+    "Sala 06 - Térreo",
+    "Sala 6.1 - Térreo",
+    "Sala 07 - Térreo",
+    "Sala 08 - Térreo",
+    "Predial (S.9) - Térreo",
+    "Sala 10 - Térreo",
+  ],
+  BlocoF: [
+    "Sala 01 - 1° Andar",
+    "Sala 02 - 1° Andar",
+    "Sala 03 - 1° Andar",
+    "Sala 04 - 1° Andar",
+    "Sala 05 - 1° Andar",
+    "Sala 06 - 1° Andar",
+    "Sala 07 - 1° Andar",
+    "Sala 08 - 1° Andar",
+    "Sala 09 - 1° Andar",
+    "Sala 10 - 1° Andar",
+    "Sala 11 - 2° Andar",
+    "Sala 12 - 2° Andar",
+    "Sala 13 - 2° Andar",
+    "Sala 14 - 2° Andar",
+    "Sala 15 - 2° Andar",
+    "Sala 16 - 2° Andar",
+    "Sala 17 - 2° Andar",
+    "Sala 18 - 2° Andar",
+    "Sala 19 - 2° Andar",
+    "Sala 20 - 2° Andar",
+  ],
+  BlocoG: ["Mecânica automotiva - Térreo"],
+  BlocoH: [
+    "Setor teórica de Empilhadeira - Térreo",
+    "Sala de Planta EMI - Térreo",
+    "Planta de processamento de cereais, raízes e derivados - Térreo",
+  ],
+},
+
     };
   },
   methods: {
+    updateSalas() {
+      this.salas = this.blocos[this.blocodaSala] || [];
+      this.numerodaSala = '';
+    },
     navigateToLugar() {
-      // Certifique-se de que esta rota existe e está configurada no Vue Router
       this.$router.push('/lugar');
     },
     async reportProblem() {
-      // Validação e relatórios do problema
-      if (this.blocodaSala && this.numerodaSala && this.relatarProblema) {
-        const sanitizedProblem = this.sanitizeInput(this.relatarProblema);
+      if (this.blocodaSala && this.numerodaSala && this.problema) {
+        const sanitizedProblem = this.sanitizeInput(this.problema === 'Outro' ? this.Outro : this.problema);
         try {
           const response = await fetch('http://localhost:3000/report-problem', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               bloco: this.blocodaSala,
-              numeroSala: this.numerodaSala,
-              relatarProblema: sanitizedProblem,
-              categoria: this.categoriaProblema
-            })
+              sala: this.numerodaSala,
+              problema: sanitizedProblem,
+            }),
+          });
+          if (!response.ok) throw new Error('Falha ao relatar problema');
+          
+          // Mensagem de agradecimento
+          Swal.fire({
+            title: 'Problema Relatado',
+            text: 'Seu problema foi relatado com sucesso! ST SOLUÇÕES agradece pela abertura do chamado! Acompanhe seu e-mail, pois manteremos você atualizado sobre a resolução do seu problema.',
+            icon: 'success',
           });
 
-          if (response.ok) {
-            this.resetForm();
-            Swal.fire({
-              title: 'Ótimo trabalho!',
-              text: 'Seu problema foi relatado com sucesso!',
-              icon: 'success'
-            });
-          } else {
-            const data = await response.json();
-            Swal.fire({
-              title: 'Erro!',
-              text: `Erro ao relatar problema: ${data.error}`,
-              icon: 'error'
-            });
-          }
+          this.resetForm();
         } catch (error) {
-          Swal.fire({
-            title: 'Erro!',
-            text: `Erro ao conectar ao servidor: ${error.message}`,
-            icon: 'error'
-          });
+          Swal.fire('Erro', 'Não foi possível relatar o problema. Tente novamente.', 'error');
         }
       } else {
-        Swal.fire({
-          title: 'Aviso!',
-          text: 'Por favor, preencha todos os campos.',
-          icon: 'warning'
-        });
+        Swal.fire('Erro', 'Todos os campos obrigatórios devem ser preenchidos.', 'warning');
       }
     },
     sanitizeInput(input) {
-      return input.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      return input.replace(/[^a-zA-Z0-9\s]/g, '');
     },
     resetForm() {
+      this.problema = '';
+      this.Outro = '';
       this.blocodaSala = '';
       this.numerodaSala = '';
-      this.relatarProblema = '';
-      this.categoriaProblema = '';
-    }
-  }
+      this.salas = [];
+    },
+  },
 };
 </script>
+
+
 <style scoped>
 /* Reset básico */
 body, html {
