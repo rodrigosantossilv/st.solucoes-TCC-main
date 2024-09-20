@@ -1,4 +1,3 @@
-<!-- src/pages/ChamadosPage.vue -->
 <template>
   <div>
     <!-- Cabeçalho -->
@@ -32,26 +31,93 @@
           </li>
         </ul>
       </nav>
-      <!-- Conteúdo principal (Kanban) -->
-      
+
+      <!-- Conteúdo principal (Kanban com gráfico) -->
+      <div class="content">
+        <!-- Gráfico de barras (único gráfico) -->
+        <div class="flex justify-center items-center">
+          <div class="card w-[30%] h-[15rem]">
+            <Chart type="bar" :data="chartDataBar" :options="chartOptionsBar" class="h-full" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  methods: {
-    mostrarHome() {
-      // Lógica para mostrar a página inicial
-    },
-    KanbanBoard() {
-      // Lógica para mostrar o Kanban Board
-    },
-    mostrarCategoria(categoria) {
-      // Lógica para mostrar a categoria selecionada
-    }
-  }
-}
+<script setup>
+import { ref, onMounted } from "vue";
+import Chart from 'primevue/chart';
+
+// Lógica para gráfico de barras
+onMounted(() => {
+    chartDataBar.value = setChartDataBar();
+    chartOptionsBar.value = setChartOptions();
+});
+
+const chartDataBar = ref();
+const chartOptionsBar = ref();
+
+// Função para dados e opções do gráfico de barras
+const setChartDataBar = () => {
+    return {
+        labels: ['Pendentes', 'Andamentos', 'Concluídos'],
+        datasets: [
+            {
+                label: 'Chamados',
+                data: [500, 300, 700],  // Valores para cada categoria
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',  // Cor para "Pendentes" (Vermelho)
+                    'rgba(54, 162, 235, 0.2)',  // Cor para "Andamentos" (Azul)
+                    'rgba(75, 192, 192, 0.2)'   // Cor para "Concluídos" (Verde)
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',   // Borda para "Pendentes"
+                    'rgba(54, 162, 235, 1)',   // Borda para "Andamentos"
+                    'rgba(75, 192, 192, 1)'    // Borda para "Concluídos"
+                ],
+                borderWidth: 1
+            }
+        ]
+    };
+};
+
+// Função para opções de estilo dos gráficos
+const setChartOptions = () => {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--p-text-color');
+    const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
+    const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
+
+    return {
+        plugins: {
+            legend: {
+                labels: {
+                    color: textColor
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: textColorSecondary
+                },
+                grid: {
+                    color: surfaceBorder
+                }
+            },
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    color: textColorSecondary
+                },
+                grid: {
+                    color: surfaceBorder
+                }
+            }
+        }
+    };
+};
 </script>
 
 <style scoped>
@@ -67,7 +133,7 @@ body, html {
 /* Cabeçalho */
 .header {
   width: 100%;
-  background: #0575E6 ;
+  background: #0575E6;
   color: #fff;
   padding: 10px 20px;
   display: flex;
@@ -94,7 +160,7 @@ body, html {
 /* Sidebar */
 .sidebar {
   width: 200px;
-  background:linear-gradient(to bottom, #0575E6, #02298A, #021B79);
+  background: linear-gradient(to bottom, #0575E6, #02298A, #021B79);
   padding: 15px;
   height: 100vh;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -138,6 +204,9 @@ body, html {
   overflow-y: auto;
 }
 
-/* Kanban Board */
+.content {
+  margin-top: 20px;
+}
 
+/* Kanban Board */
 </style>
