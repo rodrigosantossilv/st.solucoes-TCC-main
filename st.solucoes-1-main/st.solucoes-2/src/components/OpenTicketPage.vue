@@ -161,9 +161,10 @@ export default {
     };
   },
   methods: {
-    updateSalas() {
-      this.salas = this.blocos[this.blocodaSala] || [];
+     updateSalas(value) {
+     this.salas = this.blocos[value] || [];
       this.numerodaSala = '';
+      
     },
     navigateToLugar() {
       this.$router.push('/lugar');
