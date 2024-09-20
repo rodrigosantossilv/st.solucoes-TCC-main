@@ -16,6 +16,11 @@
       <div class="login-box">
         <h2>Olá, Informe seu problema</h2>
 
+        <!-- Exibir o número da máquina selecionada -->
+        <div v-if="numeroComputadorSelecionado">
+          <p><strong>Computador Selecionado:</strong> {{ numeroComputadorSelecionado }}</p>
+        </div>
+
         <b-form-group label="Problema*" label-for="problema">
           <b-form-select v-model="problema" id="problema">
             <option value="" disabled>Selecione o seu problema:</option>
@@ -94,77 +99,83 @@ export default {
       blocodaSala: '',
       numerodaSala: '',
       salas: [],
+      numeroComputadorSelecionado: null, // Valor para armazenar o número do computador
       blocos: {
-  BlocoA: [
-    "Lab. de acionamento mezanino - Térreo",
-    "Eletrotécnica - Térreo",
-    "Hidráulica e pneumática - Térreo",
-    "Automação industrial - Térreo",
-    "Automação predial - Térreo",
-  ],
-  BlocoB: ["Lab. Química - Térreo"],
-  BlocoC: [
-    "Lab. Mecânica industrial - Térreo",
-    "Lab. de Hidráulica e Pneumática - Térreo",
-    "Lab. Torno - Térreo",
-  ],
-  BlocoD: [
-    "Laboratório - Térreo",
-    "Sala 01 - Térreo",
-    "Lab Maker - Térreo",
-  ],
-  BlocoE: [
-    "Sala 01 - Térreo",
-    "Sala 1.1 - Térreo",
-    "Sala 1.2 - Térreo",
-    "Sala 02 - Térreo",
-    "Sala 03 - Térreo",
-    "Sala 04 - Térreo",
-    "Sala 05 - Térreo",
-    "Sala 06 - Térreo",
-    "Sala 6.1 - Térreo",
-    "Sala 07 - Térreo",
-    "Sala 08 - Térreo",
-    "Predial (S.9) - Térreo",
-    "Sala 10 - Térreo",
-  ],
-  BlocoF: [
-    "Sala 01 - 1° Andar",
-    "Sala 02 - 1° Andar",
-    "Sala 03 - 1° Andar",
-    "Sala 04 - 1° Andar",
-    "Sala 05 - 1° Andar",
-    "Sala 06 - 1° Andar",
-    "Sala 07 - 1° Andar",
-    "Sala 08 - 1° Andar",
-    "Sala 09 - 1° Andar",
-    "Sala 10 - 1° Andar",
-    "Sala 11 - 2° Andar",
-    "Sala 12 - 2° Andar",
-    "Sala 13 - 2° Andar",
-    "Sala 14 - 2° Andar",
-    "Sala 15 - 2° Andar",
-    "Sala 16 - 2° Andar",
-    "Sala 17 - 2° Andar",
-    "Sala 18 - 2° Andar",
-    "Sala 19 - 2° Andar",
-    "Sala 20 - 2° Andar",
-  ],
-  BlocoG: ["Mecânica automotiva - Térreo"],
-  BlocoH: [
-    "Setor teórica de Empilhadeira - Térreo",
-    "Sala de Planta EMI - Térreo",
-    "Planta de processamento de cereais, raízes e derivados - Térreo",
-  ],
-},
-
+        BlocoA: [
+          "Lab. de acionamento mezanino - Térreo",
+          "Eletrotécnica - Térreo",
+          "Hidráulica e pneumática - Térreo",
+          "Automação industrial - Térreo",
+          "Automação predial - Térreo",
+        ],
+        BlocoB: ["Lab. Química - Térreo"],
+        BlocoC: [
+          "Lab. Mecânica industrial - Térreo",
+          "Lab. de Hidráulica e Pneumática - Térreo",
+          "Lab. Torno - Térreo",
+        ],
+        BlocoD: [
+          "Laboratório - Térreo",
+          "Sala 01 - Térreo",
+          "Lab Maker - Térreo",
+        ],
+        BlocoE: [
+          "Sala 01 - Térreo",
+          "Sala 1.1 - Térreo",
+          "Sala 1.2 - Térreo",
+          "Sala 02 - Térreo",
+          "Sala 03 - Térreo",
+          "Sala 04 - Térreo",
+          "Sala 05 - Térreo",
+          "Sala 06 - Térreo",
+          "Sala 6.1 - Térreo",
+          "Sala 07 - Térreo",
+          "Sala 08 - Térreo",
+          "Predial (S.9) - Térreo",
+          "Sala 10 - Térreo",
+        ],
+        BlocoF: [
+          "Sala 01 - 1° Andar",
+          "Sala 02 - 1° Andar",
+          "Sala 03 - 1° Andar",
+          "Sala 04 - 1° Andar",
+          "Sala 05 - 1° Andar",
+          "Sala 06 - 1° Andar",
+          "Sala 07 - 1° Andar",
+          "Sala 08 - 1° Andar",
+          "Sala 09 - 1° Andar",
+          "Sala 10 - 1° Andar",
+          "Sala 11 - 2° Andar",
+          "Sala 12 - 2° Andar",
+          "Sala 13 - 2° Andar",
+          "Sala 14 - 2° Andar",
+          "Sala 15 - 2° Andar",
+          "Sala 16 - 2° Andar",
+          "Sala 17 - 2° Andar",
+          "Sala 18 - 2° Andar",
+          "Sala 19 - 2° Andar",
+          "Sala 20 - 2° Andar",
+        ],
+        BlocoG: ["Mecânica automotiva - Térreo"],
+        BlocoH: [
+          "Setor teórica de Empilhadeira - Térreo",
+          "Sala de Planta EMI - Térreo",
+          "Planta de processamento de cereais, raízes e derivados - Térreo",
+        ],
+      },
     };
   },
+  mounted() {
+    // Recebe o número do computador pela rota
+    const numeroComputador = this.$route.params.numeroComputador;
+    if (numeroComputador) {
+      this.numeroComputadorSelecionado = numeroComputador;
+    }
+  },
   methods: {
-     updateSalas(value) {
-     this.salas = this.blocos[value] || [];
+    updateSalas(value) {
+      this.salas = this.blocos[value] || [];
       this.numerodaSala = '';
-      
     },
     navigateToLugar() {
       this.$router.push('/lugar');
@@ -180,34 +191,28 @@ export default {
               bloco: this.blocodaSala,
               sala: this.numerodaSala,
               problema: sanitizedProblem,
+              numeroComputador: this.numeroComputadorSelecionado, // Adiciona o número do computador
             }),
           });
           if (!response.ok) throw new Error('Falha ao relatar problema');
-          
+
           // Mensagem de agradecimento
           Swal.fire({
             title: 'Problema Relatado',
-            text: 'Seu problema foi relatado com sucesso! ST SOLUÇÕES agradece pela abertura do chamado! Acompanhe seu e-mail, pois manteremos você atualizado sobre a resolução do seu problema.',
+            text: 'Seu problema foi relatado com sucesso!',
             icon: 'success',
+            confirmButtonText: 'Fechar',
           });
-
-          this.resetForm();
         } catch (error) {
-          Swal.fire('Erro', 'Não foi possível relatar o problema. Tente novamente.', 'error');
+          console.error('Erro ao relatar problema:', error);
+          Swal.fire('Erro', 'Ocorreu um erro ao relatar o problema. Tente novamente mais tarde.', 'error');
         }
       } else {
-        Swal.fire('Erro', 'Todos os campos obrigatórios devem ser preenchidos.', 'warning');
+        Swal.fire('Erro', 'Preencha todos os campos obrigatórios.', 'error');
       }
     },
     sanitizeInput(input) {
-      return input.replace(/[^a-zA-Z0-9\s]/g, '');
-    },
-    resetForm() {
-      this.problema = '';
-      this.Outro = '';
-      this.blocodaSala = '';
-      this.numerodaSala = '';
-      this.salas = [];
+      return input.replace(/<\/?[^>]+(>|$)/g, ''); // Remove qualquer HTML
     },
   },
 };

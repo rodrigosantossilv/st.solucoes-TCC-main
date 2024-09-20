@@ -37,6 +37,8 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+
 export default {
   data() {
     return {
@@ -65,9 +67,13 @@ export default {
       });
     },
     toggleSelecao(id) {
+      // Desmarcar todos os lugares antes de marcar o novo
+      this.lugares.forEach(lugar => (lugar.selecionado = false));
+
+      // Marcar o lugar clicado
       const lugar = this.lugares.find(lugar => lugar.id === id);
       if (lugar) {
-        lugar.selecionado = !lugar.selecionado;
+        lugar.selecionado = true;
         this.salvarSelecao();
       }
     },
@@ -79,8 +85,30 @@ export default {
       // Aqui você pode adicionar o código para salvar a informação, por exemplo, enviar para um servidor
     },
     confirmarSelecao() {
-      this.salvarSelecao();
-      // Adicione código para confirmar a seleção, como enviar para um servidor
+      const lugarSelecionado = this.lugares.find(lugar => lugar.selecionado);
+      
+      if (lugarSelecionado) {
+        // Exibe o SweetAlert informando o sucesso da seleção
+        Swal.fire({
+          title: 'Sucesso!',
+          text: `Você selecionou o computador ${lugarSelecionado.fileira}-${lugarSelecionado.coluna}`,
+          icon: 'success',
+          confirmButtonText: 'OK'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Redireciona para a página /openticketpage
+            this.$router.push('/openticketpage');
+          }
+        });
+      } else {
+        // Caso não tenha nenhum lugar selecionado
+        Swal.fire({
+          title: 'Erro!',
+          text: 'Por favor, selecione um lugar antes de confirmar.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+      }
     }
   },
 };
