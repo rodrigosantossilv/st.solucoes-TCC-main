@@ -15,7 +15,7 @@
         <h2>Menu</h2>
         <ul class="nav-list">
           <li class="nav-item">
-            <a @click="HomePage" href="Home" class="nav-link">Home</a>
+            <a @click="mostrarHome" href="#" class="nav-link">Home</a>
           </li>
           <li class="nav-item">
             <a @click="mostrarChamados" href="#" class="nav-link">Chamados</a>
@@ -161,6 +161,15 @@ export default {
   data() {
     return {
       chamados: [],
+      setores: [],
+      usuarios: [],
+      blocos: [],
+      salas: [],
+      maquinas: [],
+      problemas: [],
+      chamadosMaquinas: [],
+      atribuídos: [],
+      logs: [],
       categoriaVisivel: null,
       mostrarTodosChamados: true,
       novoComentario: '',
@@ -183,16 +192,63 @@ export default {
       const resposta = await fetch('/api/chamados');
       this.chamados = await resposta.json();
     },
+    async carregarSetores() {
+      const resposta = await fetch('/api/setores');
+      this.setores = await resposta.json();
+    },
+    async carregarUsuarios() {
+      const resposta = await fetch('/api/usuarios');
+      this.usuarios = await resposta.json();
+    },
+    async carregarBlocos() {
+      const resposta = await fetch('/api/blocos');
+      this.blocos = await resposta.json();
+    },
+    async carregarSalas() {
+      const resposta = await fetch('/api/salas');
+      this.salas = await resposta.json();
+    },
+    async carregarMaquinas() {
+      const resposta = await fetch('/api/maquinas');
+      this.maquinas = await resposta.json();
+    },
+    async carregarProblemas() {
+      const resposta = await fetch('/api/problemas');
+      this.problemas = await resposta.json();
+    },
+    async carregarChamadosMaquinas() {
+      const resposta = await fetch('/api/chamados-maquinas');
+      this.chamadosMaquinas = await resposta.json();
+    },
+    async carregarAtribuidos() {
+      const resposta = await fetch('/api/atribuidos');
+      this.atribuídos = await resposta.json();
+    },
+    async carregarLogs() {
+      const resposta = await fetch('/api/logs');
+      this.logs = await resposta.json();
+    },
+    async montarDashboard() {
+      await Promise.all([
+        this.carregarChamados(),
+        this.carregarSetores(),
+        this.carregarUsuarios(),
+        this.carregarBlocos(),
+        this.carregarSalas(),
+        this.carregarMaquinas(),
+        this.carregarProblemas(),
+        this.carregarChamadosMaquinas(),
+        this.carregarAtribuidos(),
+        this.carregarLogs(),
+      ]);
+    },
     mostrarHome() {
-      this.paginaAtual = 'Home';
+      this.paginaAtual = 'home';
     },
     mostrarChamados() {
       this.paginaAtual = 'kanban';
-      this.categoriaVisivel = null;
-      this.mostrarTodosChamados = true;
     },
     mostrarCategoria(categoria) {
-      this.paginaAtual = 'kanban';
       this.categoriaVisivel = categoria;
       this.mostrarTodosChamados = false;
     },
@@ -200,26 +256,27 @@ export default {
       event.preventDefault();
     },
     drag(event, chamado) {
-      event.dataTransfer.setData('chamado', JSON.stringify(chamado));
+      event.dataTransfer.setData('text/plain', chamado.id);
     },
     drop(event) {
       event.preventDefault();
-      const chamado = JSON.parse(event.dataTransfer.getData('chamado'));
-      // Lógica de movimentação de chamado
+      const id = event.dataTransfer.getData('text/plain');
+      const chamado = this.chamados.find(ch => ch.id === id);
+      // Lógica para mover o chamado entre as colunas conforme o status
+      // Atualizar o status do chamado conforme a nova coluna
     },
     adicionarComentario(chamado) {
-      if (this.novoComentario.trim() !== '') {
+      if (this.novoComentario.trim()) {
         chamado.comentarios.push(this.novoComentario);
         this.novoComentario = '';
       }
     }
   },
   mounted() {
-    this.carregarChamados();
+    this.montarDashboard();
   }
 };
 </script>
-
 <style scoped>
 /* Reset básico */
 body, html {
@@ -374,3 +431,4 @@ input[type="text"] {
     margin-top: 5px;
 }
 </style>
+

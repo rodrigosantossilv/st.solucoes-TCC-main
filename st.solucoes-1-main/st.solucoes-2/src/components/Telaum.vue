@@ -3,7 +3,7 @@
         <!-- Cabeçalho principal contendo o logotipo e o título -->
         <div class="intro-header">
             <!-- Logotipo da empresa -->
-            <img src="/images/ST-nova.png" alt="Logotipo" class="logo" />
+            <img src="/images/ST.um.png" alt="Logotipo" class="logo" />
         </div>
         <!-- Container para os botões de login e cadastro -->
         <div class="intro-buttons">

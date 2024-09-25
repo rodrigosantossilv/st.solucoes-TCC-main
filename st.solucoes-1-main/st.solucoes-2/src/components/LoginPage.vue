@@ -62,41 +62,46 @@ export default {
   },
   methods: {
     login() {
-      // Resetar erros
-      this.usuarioInvalido = false;
-      this.senhaInvalida = false;
+  // Resetar erros
+  this.usuarioInvalido = false;
+  this.senhaInvalida = false;
 
-      // Simulação de verificação de usuário e senha
-      if (this.usuario === '') {
-        Swal.fire({
-          icon: 'error',
-          title: 'Erro!',
-          text: 'Usuário não encontrado! Se não tem uma conta, crie uma.',
-        });
-      } else if (this.usuario === 'admin' && this.password === '123456') {
-        Swal.fire({
-          icon: 'success',
-          title: 'Login realizado!',
-          text: 'Bem-vindo ao sistema!',
-        }).then(() => {
-          // Redirecionar para o dashboard
-          this.$router.push('/openticketpage');
-        });
-      } else if (this.usuario === 'admin1' && this.password === '123456') {
-        Swal.fire({
-          icon: 'success',
-          title: 'Login realizado!',
-          text: 'Bem-vindo ao sistema!',
-        }).then(() => {
-          // Redirecionar para o dashboard
-          this.$router.push('/kanbanboard');
-        });
-      } else if (this.usuario !== 'admin') {
-        this.usuarioInvalido = true;
-      } else {
-        this.senhaInvalida = true;
-      }
-    },
+  // Simulação de verificação de usuário e senha
+  if (this.usuario === '') {
+    Swal.fire({
+      icon: 'error',
+      title: 'Erro!',
+      text: 'Usuário não encontrado! Se não tem uma conta, crie uma.',
+    });
+  } else if (this.usuario === 'admin' && this.password === '123456') {
+    // Exibe a mensagem de boas-vindas após o login
+    Swal.fire({
+      icon: 'success',
+      title: 'Bem-vindo!',
+      html: `Bem-vindo, ${this.usuario}!<br>Para o andamento do chamado, por favor, preencha as informações a seguir.`,
+      confirmButtonText: 'Continuar',
+    }).then(() => {
+      // Redirecionar para a página de abertura de chamado
+      this.$router.push('/openticketpage');
+    });
+  } else if (this.usuario === 'admin1' && this.password === '123456') {
+    // Exibe a mensagem de boas-vindas após o login
+    Swal.fire({
+      icon: 'success',
+      title: 'Bem-vindo!',
+      html: `Bem-vindo, ${this.usuario}!<br>Para o andamento do chamado, por favor, preencha as informações a seguir.`,
+      confirmButtonText: 'Continuar',
+    }).then(() => {
+      // Redirecionar para o kanban
+      this.$router.push('/kanbanboard');
+    });
+  } else if (this.usuario !== 'admin') {
+    this.usuarioInvalido = true;
+  } else {
+    this.senhaInvalida = true;
+  }
+},
+
     togglePasswordVisibility() {
       this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
     },
