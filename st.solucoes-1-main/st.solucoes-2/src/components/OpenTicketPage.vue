@@ -16,7 +16,6 @@
       <div class="login-box">
         <h2>Olá, Informe seu problema</h2>
 
-        <!-- Exibir o número da máquina selecionada -->
         <div v-if="numeroComputadorSelecionado">
           <p><strong>Computador Selecionado:</strong> {{ numeroComputadorSelecionado }}</p>
         </div>
@@ -82,6 +81,7 @@
 
 <script>
 import Swal from 'sweetalert2';
+import axios from 'axios';
 import { BForm, BFormGroup, BFormTextarea, BFormSelect, BButton } from 'bootstrap-vue-3';
 
 export default {
@@ -99,110 +99,61 @@ export default {
       blocodaSala: '',
       numerodaSala: '',
       salas: [],
-      numeroComputadorSelecionado: null, // Valor para armazenar o número do computador
-      blocos: {
-        BlocoA: [
-          "Lab. de acionamento mezanino - Térreo",
-          "Eletrotécnica - Térreo",
-          "Hidráulica e pneumática - Térreo",
-          "Automação industrial - Térreo",
-          "Automação predial - Térreo",
-        ],
-        BlocoB: ["Lab. Química - Térreo"],
-        BlocoC: [
-          "Lab. Mecânica industrial - Térreo",
-          "Lab. de Hidráulica e Pneumática - Térreo",
-          "Lab. Torno - Térreo",
-        ],
-        BlocoD: [
-          "Laboratório - Térreo",
-          "Sala 01 - Térreo",
-          "Lab Maker - Térreo",
-        ],
-        BlocoE: [
-          "Sala 01 - Térreo",
-          "Sala 1.1 - Térreo",
-          "Sala 1.2 - Térreo",
-          "Sala 02 - Térreo",
-          "Sala 03 - Térreo",
-          "Sala 04 - Térreo",
-          "Sala 05 - Térreo",
-          "Sala 06 - Térreo",
-          "Sala 6.1 - Térreo",
-          "Sala 07 - Térreo",
-          "Sala 08 - Térreo",
-          "Predial (S.9) - Térreo",
-          "Sala 10 - Térreo",
-        ],
-        BlocoF: [
-          "Sala 01 - 1° Andar",
-          "Sala 02 - 1° Andar",
-          "Sala 03 - 1° Andar",
-          "Sala 04 - 1° Andar",
-          "Sala 05 - 1° Andar",
-          "Sala 06 - 1° Andar",
-          "Sala 07 - 1° Andar",
-          "Sala 08 - 1° Andar",
-          "Sala 09 - 1° Andar",
-          "Sala 10 - 1° Andar",
-          "Sala 11 - 2° Andar",
-          "Sala 12 - 2° Andar",
-          "Sala 13 - 2° Andar",
-          "Sala 14 - 2° Andar",
-          "Sala 15 - 2° Andar",
-          "Sala 16 - 2° Andar",
-          "Sala 17 - 2° Andar",
-          "Sala 18 - 2° Andar",
-          "Sala 19 - 2° Andar",
-          "Sala 20 - 2° Andar",
-        ],
-        BlocoG: ["Mecânica automotiva - Térreo"],
-        BlocoH: [
-          "Setor teórica de Empilhadeira - Térreo",
-          "Sala de Planta EMI - Térreo",
-          "Planta de processamento de cereais, raízes e derivados - Térreo",
-        ],
-      },
+      numeroComputadorSelecionado: null,
     };
   },
   mounted() {
-    // Recebe o número do computador pela rota
     const numeroComputador = this.$route.params.numeroComputador;
     if (numeroComputador) {
       this.numeroComputadorSelecionado = numeroComputador;
     }
   },
   methods: {
-    updateSalas(value) {
-      this.salas = this.blocos[value] || [];
-      this.numerodaSala = '';
+    // Atualiza salas com base no bloco selecionado
+    async updateSalas(value) {
+      try {
+        const response = await axios.get(`http://localhost:3000/blocos/${value}/salas`);
+        this.salas = response.data;
+        this.numerodaSala = '';
+      } catch (error) {
+        console.error('Erro ao buscar salas:', error);
+        Swal.fire('Erro', 'Ocorreu um erro ao buscar as salas.', 'error');
+      }
     },
-    navigateToLugar() {
-      this.$router.push('/lugar');
+
+    // Navega para seleção de máquinas
+    async navigateToLugar() {
+      try {
+        const response = await axios.get('http://localhost:3000/maquinas');
+        this.$router.push('/lugar');
+      } catch (error) {
+        console.error('Erro ao buscar máquinas:', error);
+        Swal.fire('Erro', 'Ocorreu um erro ao buscar as máquinas.', 'error');
+      }
     },
+
+    // Relatar problema
     async reportProblem() {
       if (this.blocodaSala && this.numerodaSala && this.problema) {
         const sanitizedProblem = this.sanitizeInput(this.problema === 'Outro' ? this.Outro : this.problema);
         try {
-          const response = await fetch('http://localhost:3000/report-problem', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              bloco: this.blocodaSala,
-              sala: this.numerodaSala,
-              problema: sanitizedProblem,
-              numeroComputador: this.numeroComputadorSelecionado, // Adiciona o número do computador
-            }),
+          const response = await axios.post('http://localhost:3000/chamados', {
+            bloco: this.blocodaSala,
+            sala: this.numerodaSala,
+            problema: sanitizedProblem,
+            numeroComputador: this.numeroComputadorSelecionado,
           });
-          if (!response.ok) throw new Error('Falha ao relatar problema');
 
-          // Mensagem de agradecimento
-          Swal.fire({
-            title: 'Problema Relatado',
-            text: 'Seu problema foi relatado com sucesso!',
-            icon: 'success',
-            confirmButtonText: 'Fechar',
-          });
+          if (response.status === 200) {
+            Swal.fire({
+              title: 'Problema Relatado',
+              text: 'Seu problema foi relatado com sucesso!',
+              icon: 'success',
+              confirmButtonText: 'Fechar',
+            });
+          } else {
+            throw new Error('Falha ao relatar problema');
+          }
         } catch (error) {
           console.error('Erro ao relatar problema:', error);
           Swal.fire('Erro', 'Ocorreu um erro ao relatar o problema. Tente novamente mais tarde.', 'error');
@@ -211,12 +162,15 @@ export default {
         Swal.fire('Erro', 'Preencha todos os campos obrigatórios.', 'error');
       }
     },
+
+    // Sanitiza entrada de texto para evitar problemas de segurança
     sanitizeInput(input) {
-      return input.replace(/<\/?[^>]+(>|$)/g, ''); // Remove qualquer HTML
+      return input.replace(/<\/?[^>]+(>|$)/g, '');
     },
   },
 };
 </script>
+
 
 
 <style scoped>
