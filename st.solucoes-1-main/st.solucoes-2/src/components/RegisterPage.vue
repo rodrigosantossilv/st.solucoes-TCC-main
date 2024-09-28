@@ -25,30 +25,28 @@
           <input type="email" v-model="email" placeholder="Email" required />
           <input type="email" v-model="confirmEmail" placeholder="Confirmar email" required />
           <div class="password-container">
-  <input :type="senhaFieldType" v-model="senha" placeholder="Senha" required @paste.prevent />
-  <i @click="toggleSenhaVisibility" class="password-icon">
-    <span v-if="senhaFieldType === 'password'">
-      <img src="/images/olho.png" alt="Olho" class="eye-icon" />
-    </span>
-    <span v-else>
-      <img src="/images/fechado.png" alt="Fechado" class="eye-icon" />
-    </span>
-  </i>
-</div>
+            <input :type="senhaFieldType" v-model="senha" placeholder="Senha" required @paste.prevent />
+            <i @click="toggleSenhaVisibility" class="password-icon">
+              <span v-if="senhaFieldType === 'password'">
+                <img src="/images/olho.png" alt="Olho" class="eye-icon" />
+              </span>
+              <span v-else>
+                <img src="/images/fechado.png" alt="Fechado" class="eye-icon" />
+              </span>
+            </i>
+          </div>
 
-<div class="password-container">
-  <input :type="confirmSenhaFieldType" v-model="confirmSenha" placeholder="Confirmar senha" required @paste.prevent />
-  <i @click="toggleConfirmSenhaVisibility" class="password-icon">
-    <span v-if="confirmSenhaFieldType === 'password'">
-      <img src="/images/olho.png" alt="Olho" class="eye-icon" />
-    </span>
-    <span v-else>
-      <img src="/images/fechado.png" alt="Fechado" class="eye-icon" />
-    </span>
-  </i>
-</div>
-
-     
+          <div class="password-container">
+            <input :type="confirmSenhaFieldType" v-model="confirmSenha" placeholder="Confirmar senha" required @paste.prevent />
+            <i @click="toggleConfirmSenhaVisibility" class="password-icon">
+              <span v-if="confirmSenhaFieldType === 'password'">
+                <img src="/images/olho.png" alt="Olho" class="eye-icon" />
+              </span>
+              <span v-else>
+                <img src="/images/fechado.png" alt="Fechado" class="eye-icon" />
+              </span>
+            </i>
+          </div>
 
           <button type="submit">Cadastrar</button>
 
@@ -120,7 +118,7 @@ export default {
 
     fetchCep() {
       const cep = this.cep.replace(/\D/g, '');
-      if (cep.length === 11) {
+      if (cep.length === 8) { // Corrigido para 8 caracteres
         fetch(`https://viacep.com.br/ws/${cep}/json/`)
           .then(response => response.json())
           .then(data => {
@@ -384,10 +382,10 @@ body, html {
     display: none;
   }
 }
+
 .eye-icon {
   width: 30px; /* Ajuste para o tamanho desejado */
   height: 30px; /* Ajuste para o tamanho desejado */
   cursor: pointer;
 }
-
 </style>
