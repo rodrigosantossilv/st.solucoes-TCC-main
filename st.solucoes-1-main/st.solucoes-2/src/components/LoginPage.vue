@@ -93,7 +93,7 @@ export default {
       confirmButtonText: 'Continuar',
     }).then(() => {
       // Redirecionar para o kanban
-      this.$router.push('/kanbanboard');
+      this.$router.push('/sidebar');
     });
   } else if (this.usuario !== 'admin') {
     this.usuarioInvalido = true;
