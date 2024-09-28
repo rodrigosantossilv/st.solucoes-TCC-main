@@ -1,33 +1,30 @@
 <template>
-  <div class="register-container">
-    <div class="left-side">
-      <img src="/images/ST.png" alt="Logotipo"/>
-      <img src="/images/circulos.png" alt="Circles" class="corner-img"/>
-      
-      <!-- Bubbles Animation -->
-      <div class="bubbles">
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
+  <div>
+    <!-- Tela de Login -->
+    <div class="login-container">
+      <div class="left-side">
+        <img src="/images/ST.png" alt="Logotipo" />
+        <img src="/images/circulos.png" alt="Circles" class="corner-img" />
+        
+        <!-- Bubbles Animation (opcional) -->
+        <div class="bubbles">
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+        </div>
       </div>
-    </div>
 
-    <div class="right-side">
-      <div class="register-box">
-        <h2>Cadastrar</h2>
-
-        <form @submit.prevent="handleSubmit">
-          <input type="text" v-model="nome" placeholder="Nome completo" required />
-          <input type="text" v-model="instituicao" placeholder="Instituição de ensino" required />
-          <input type="text" v-model="cep" placeholder="CEP" v-mask="'###.###.###-##'" @blur="fetchCep" required />
-          <input type="email" v-model="email" placeholder="Email" required />
-          <input type="email" v-model="confirmEmail" placeholder="Confirmar email" required />
+      <div class="right-side">
+        <div class="login-box">
+          <h2>Bem-vindo!</h2>
+          <input type="text" placeholder="Usuário" v-model="usuario" aria-label="Usuário" />
+          <p v-if="usuarioInvalido" class="error-text">Usuário inválido!</p>
           <div class="password-container">
-            <input :type="senhaFieldType" v-model="senha" placeholder="Senha" required @paste.prevent />
-            <i @click="toggleSenhaVisibility" class="password-icon">
-              <span v-if="senhaFieldType === 'password'">
+            <input :type="passwordFieldType" placeholder="Senha" v-model="password" aria-label="Senha" />
+            <i @click="togglePasswordVisibility" class="password-icon">
+              <span v-if="passwordFieldType === 'password'">
                 <img src="/images/olho.png" alt="Olho" class="eye-icon" />
               </span>
               <span v-else>
@@ -35,31 +32,17 @@
               </span>
             </i>
           </div>
-
-          <div class="password-container">
-            <input :type="confirmSenhaFieldType" v-model="confirmSenha" placeholder="Confirmar senha" required @paste.prevent />
-            <i @click="toggleConfirmSenhaVisibility" class="password-icon">
-              <span v-if="confirmSenhaFieldType === 'password'">
-                <img src="/images/olho.png" alt="Olho" class="eye-icon" />
-              </span>
-              <span v-else>
-                <img src="/images/fechado.png" alt="Fechado" class="eye-icon" />
-              </span>
-            </i>
+          <p v-if="senhaInvalida" class="error-text">Senha inválida!</p>
+          <button @click="login" :disabled="isLoading">
+            <span v-if="isLoading">Carregando...</span>
+            <span v-else>Login</span>
+          </button>
+          <div class="text-center mt-3">
+            <p class="mb-0">
+              Não tem uma conta?
+              <router-link to="/register" class="btn btn-link">Crie uma</router-link>
+            </p>
           </div>
-
-          <button type="submit">Cadastrar</button>
-
-          <div v-if="feedback" :class="{'text-success': isSuccess, 'text-danger': !isSuccess}" class="mt-2">
-            {{ feedback }}
-          </div>
-        </form>
-
-        <div class="text-center mt-3">
-          <p class="mb-0">
-            Já tem uma conta? 
-            <router-link to="login" class="btn btn-link">Login</router-link>
-          </p>
         </div>
       </div>
     </div>
@@ -67,82 +50,59 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+import axios from 'axios';
+
 export default {
   data() {
     return {
-      nome: '',
-      instituicao: '',
-      cep: '',
-      email: '',
-      confirmEmail: '',
-      senha: '',
-      confirmSenha: '',
-      feedback: '',
-      isSuccess: false,
-      senhaFieldType: 'password',
-      confirmSenhaFieldType: 'password',
+      usuario: '',
+      password: '',
+      usuarioInvalido: false,
+      senhaInvalida: false,
+      passwordFieldType: 'password',
+      isLoading: false,
     };
   },
   methods: {
-    handleSubmit() {
-      this.feedback = '';
-      this.isSuccess = false;
-
-      if (!this.email.includes('@')) {
-        this.feedback = 'Email inválido';
-        this.isSuccess = false;
-        return;
-      }
-
-      if (this.email !== this.confirmEmail) {
-        this.feedback = 'Os emails não coincidem';
-        this.isSuccess = false;
-        return;
-      }
-
-      if (this.senha.length < 8) {
-        this.feedback = 'A senha deve ter pelo menos 8 caracteres';
-        this.isSuccess = false;
-        return;
-      }
-
-      if (this.senha !== this.confirmSenha) {
-        this.feedback = 'As senhas não coincidem';
-        this.isSuccess = false;
-        return;
-      }
-
-      this.feedback = 'Cadastro realizado com sucesso!';
-      this.isSuccess = true;
+    togglePasswordVisibility() {
+      this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
     },
+    async login() {
+      this.usuarioInvalido = !this.usuario.trim();
+      this.senhaInvalida = !this.password.trim();
 
-    fetchCep() {
-      const cep = this.cep.replace(/\D/g, '');
-      if (cep.length === 8) { // Corrigido para 8 caracteres
-        fetch(`https://viacep.com.br/ws/${cep}/json/`)
-          .then(response => response.json())
-          .then(data => {
-            if (data.erro) {
-              this.feedback = 'CEP não encontrado';
-              this.isSuccess = false;
-            } else {
-              // Preencher os campos adicionais se necessário
-              console.log(`${data.logradouro}, ${data.bairro}, ${data.localidade} - ${data.uf}`);
-            }
-          })
-          .catch(() => {
-            this.feedback = 'Erro ao buscar CEP';
-            this.isSuccess = false;
+      if (this.usuarioInvalido || this.senhaInvalida) return;
+
+      this.isLoading = true;
+
+      try {
+        const response = await axios.post('/usuarios/login', {
+          usuario: this.usuario,
+          password: this.password,
+        });
+
+        if (response.data.success) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Bem-vindo!',
+            html: `Bem-vindo, ${this.usuario}!<br>Para o andamento do chamado, por favor, preencha as informações a seguir.`,
+            confirmButtonText: 'Continuar',
+          }).then(() => {
+            this.$router.push('/openticketpage');
           });
+        } else {
+          this.senhaInvalida = true;
+        }
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro!',
+          text: error.response ? error.response.data.message || 'Usuário ou senha inválidos!' : 'Erro de conexão. Tente novamente mais tarde.',
+        });
+      } finally {
+        this.isLoading = false;
       }
-    },
-    
-    toggleSenhaVisibility() {
-      this.senhaFieldType = this.senhaFieldType === 'password' ? 'text' : 'password';
-    },
-    
-    toggleConfirmSenhaVisibility() {
-      this.confirmSenhaFieldType = this.confirmSenhaFieldType === 'password' ? 'text' : 'password';
     },
   },
 };
@@ -158,11 +118,11 @@ body, html {
   font-family: Arial, sans-serif;
 }
 
-/* Container de registro */
-.register-container {
+/* Container de login */
+.login-container {
   display: flex;
   height: 100vh;
-  position: relative; /* Necessário para a posição absoluta das bolhas */
+  position: relative;
 }
 
 /* Lado esquerdo - Imagem com gradiente */
@@ -175,18 +135,18 @@ body, html {
   position: relative;
 }
 
-/* Lado direito - Formulário de registro */
+/* Lado direito - Formulário de login */
 .right-side {
   flex: 2;
   background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative; /* Necessário para a posição absoluta das bolhas */
+  position: relative;
 }
 
-/* Caixa de registro */
-.register-box {
+/* Caixa de login */
+.login-box {
   width: 85%;
   max-width: 400px;
   padding: 40px;
@@ -196,28 +156,33 @@ body, html {
 }
 
 /* Estilo do título */
-.register-box h2 {
+.login-box h2 {
   margin-bottom: 20px;
   text-align: center;
-  color:  #0738b3;
+  color: #0738b3;
 }
 
 /* Estilo dos inputs */
-.register-box input {
+.login-box input {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #b2b0b0;
   border-radius: 15px;
   box-sizing: border-box;
 }
 
-/* Botão de registro */
-.register-box button {
+.login-box input:hover {
+  border-color: #0056b3;
+  box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
+}
+
+/* Botão de login */
+.login-box button {
   width: 100%;
   padding: 11px;
   background-color: #02298A;
-  color: white;
+  color: rgb(255, 255, 255);
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -225,17 +190,17 @@ body, html {
 }
 
 /* Efeito de hover no botão */
-.register-box button:hover {
+.login-box button:hover {
   background-color: #2059ea;
 }
 
 /* Estilo do link */
-.register-box .btn-link {
+.login-box .btn-link {
   color: rgb(8, 91, 143);
   text-decoration: none;
 }
 
-.register-box .btn-link:hover {
+.login-box .btn-link:hover {
   text-decoration: underline;
 }
 
@@ -247,10 +212,16 @@ body, html {
   width: 750px;
   height: auto;
 }
+.eye-icon {
+  width: 20px; /* Ajuste para um tamanho menor */
+  height: 20px; /* Ajuste para um tamanho menor */
+  cursor: pointer;
+}
 
-/* Responsividade adicional */
+
+/* Responsividade */
 @media (max-width: 768px) {
-  .register-container {
+  .login-container {
     flex-direction: column;
   }
 
@@ -273,7 +244,7 @@ body, html {
 }
 
 .password-container input {
-  padding-right: 40px; /* Ajuste para o espaço do ícone */
+  padding-right: 40px;
 }
 
 .password-icon {
@@ -284,35 +255,33 @@ body, html {
   cursor: pointer;
   font-size: 1.2em;
   color: #666;
-  user-select: none; /* Impede a seleção do texto do ícone */
+  user-select: none;
   transition: color 0.3s, transform 0.3s;
 }
 
 .password-icon:hover {
-  color: #000; /* Cor do ícone ao passar o mouse */
-  transform: scale(1.2); /* Aumenta o tamanho do ícone ao passar o mouse */
+  color: #000;
+  transform: scale(1.2);
 }
 
-/* Animação das bolhas */
+/* Bubbles Animation */
 .bubbles {
   position: absolute;
   bottom: 0;
-  left: 0; /* Move as bolhas para o lado esquerdo */
   width: 100%;
   height: 100%;
   pointer-events: none;
   overflow: hidden;
-  z-index: 1; /* Garante que as bolhas fiquem atrás do conteúdo principal */
+  z-index: 1;
 }
 
 .bubble {
   position: absolute;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2); /* Cor sutil para as bolhas */
-  animation: bubble 5s infinite; /* Animação contínua */
+  background: rgba(255, 255, 255, 0.2);
+  animation: bubble 5s infinite;
 }
 
-/* Ajuste das bolhas */
 .bubble:nth-child(1) {
   width: 60px;
   height: 60px;
@@ -362,30 +331,5 @@ body, html {
     transform: translateY(-1000px) scale(0);
     opacity: 0;
   }
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-  .register-container {
-    flex-direction: column;
-  }
-
-  .left-side {
-    display: none;
-  }
-
-  .right-side {
-    flex: 1;
-  }
-
-  .corner-img {
-    display: none;
-  }
-}
-
-.eye-icon {
-  width: 30px; /* Ajuste para o tamanho desejado */
-  height: 30px; /* Ajuste para o tamanho desejado */
-  cursor: pointer;
 }
 </style>
