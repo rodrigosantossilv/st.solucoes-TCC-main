@@ -72,6 +72,20 @@ export default {
       this.isLoading = true;
 
       try {
+        // Verifica se é admin com senha 123456
+        if (this.usuario === 'admin' && this.password === '123456') {
+          Swal.fire({
+            icon: 'success',
+            title: 'Login de Admin!',
+            text: 'Redirecionando para o chamados...',
+            confirmButtonText: 'OK',
+          }).then(() => {
+            this.$router.push('/openticketpage'); // Redireciona para a tela de Kanban
+          });
+          return;
+        }
+
+        // Se não for admin, continua com a chamada normal à API
         const response = await axios.post('/usuarios/login', {
           usuario: this.usuario,
           password: this.password,
@@ -102,6 +116,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 /* Reset básico */

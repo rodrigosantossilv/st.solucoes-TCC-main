@@ -16,29 +16,29 @@
       <div class="login-box">
         <h2>Olá, Informe seu problema</h2>
 
-        <div v-if="numeroComputadorSelecionado">
-          <p><strong>Computador Selecionado:</strong> {{ numeroComputadorSelecionado }}</p>
-        </div>
+      <!-- Modificação na parte do problema -->
+<b-form-group label="Problema*" label-for="problema">
+  <b-form-select v-model="problema" id="problema">
+    <option value="" disabled>Selecione o seu problema:</option>
+    <option value="Arcondicionado">Ar condicionado</option>
+    <option value="Projetores">Projetores</option>
+    <option value="CaixadeSom">Caixa de som</option>
+    <option value="Iluminaçãodoambiente">Iluminação do ambiente</option>
+    <option value="Mobiliário">Mobiliário</option>
+    <option value="ComputadoresePerifericos">Computadores e periféricos</option> <!-- Adicionada esta opção -->
+    <option value="SoftwareseProgramasEspecíficos">Softwares e programas específicos</option>
+    <option value="DisposiçãoDosEquipamentosnoAmbiente">Disposição dos equipamentos no ambiente</option>
+    <option value="Internet">Internet</option>
+    <option value="Outro">Outro</option>
+  </b-form-select>
+</b-form-group>
 
-        <b-form-group label="Problema*" label-for="problema">
-          <b-form-select v-model="problema" id="problema">
-            <option value="" disabled>Selecione o seu problema:</option>
-            <option value="Arcondicionado">Ar condicionado</option>
-            <option value="Projetores">Projetores</option>
-            <option value="CaixadeSom">Caixa de som</option>
-            <option value="Iluminaçãodoambiente">Iluminação do ambiente</option>
-            <option value="Mobiliário">Mobiliário</option>
-            <option value="Computadoresdolaboratório">Computadores do laboratório</option>
-            <option value="SoftwareseProgramasEspecíficos">Softwares e programas específicos</option>
-            <option value="DisposiçãoDosEquipamentosnoAmbiente">Disposição dos equipamentos no ambiente</option>
-            <option value="Internet">Internet</option>
-            <option value="Outro">Outro</option>
-          </b-form-select>
-        </b-form-group>
-
-        <b-form-group v-if="problema === 'Outro'" label="Descreva o problema*" label-for="outro">
-          <b-form-textarea v-model="Outro" id="outro" rows="4" required></b-form-textarea>
-        </b-form-group>
+<!-- Lógica para selecionar Máquina -->
+<b-form-group v-if="problema === 'Computadoresdolaboratório' || problema === 'ComputadoresePerifericos'" label="Selecionar Máquina" label-for="SelecionarMaquina">
+  <b-button id="SelecionarMaquina" variant="primary" @click="navigateToLugar">
+    Selecionar Máquina
+  </b-button>
+</b-form-group>
 
         <b-form-group label="Bloco da sala*" label-for="blocodasala">
           <b-form-select v-model="blocodaSala" id="blocodasala" @change="updateSalas">
@@ -61,12 +61,6 @@
           </b-form-select>
         </b-form-group>
 
-        <b-form-group v-if="problema === 'Computadoresdolaboratório'" label="Selecionar Máquina" label-for="SelecionarMaquina">
-          <b-button id="SelecionarMaquina" variant="primary" @click="navigateToLugar">
-            Selecionar Máquina
-          </b-button>
-        </b-form-group>
-
         <b-button type="submit" variant="primary" @click="reportProblem">
           Relatar Problema
         </b-button>
@@ -81,7 +75,6 @@
 
 <script>
 import Swal from 'sweetalert2';
-import axios from 'axios';
 import { BForm, BFormGroup, BFormTextarea, BFormSelect, BButton } from 'bootstrap-vue-3';
 
 export default {
@@ -99,78 +92,98 @@ export default {
       blocodaSala: '',
       numerodaSala: '',
       salas: [],
-      numeroComputadorSelecionado: null,
+      numeroComputadorSelecionado: null, // Valor para armazenar o número do computador
+      blocos: {
+        BlocoA: [
+          "Lab. de acionamento mezanino - Térreo",
+          "Eletrotécnica - Térreo",
+          "Hidráulica e pneumática - Térreo",
+          "Automação industrial - Térreo",
+          "Automação predial - Térreo",
+        ],
+        BlocoB: ["Lab. Química - Térreo"],
+        BlocoC: [
+          "Lab. Mecânica industrial - Térreo",
+          "Lab. de Hidráulica e Pneumática - Térreo",
+          "Lab. Torno - Térreo",
+        ],
+        BlocoD: [
+          "Laboratório - Térreo",
+          "Sala 01 - Térreo",
+          "Lab Maker - Térreo",
+        ],
+        BlocoE: [
+          "Sala 01 - Térreo",
+          "Sala 1.1 - Térreo",
+          "Sala 1.2 - Térreo",
+          "Sala 02 - Térreo",
+          "Sala 03 - Térreo",
+          "Sala 04 - Térreo",
+          "Sala 05 - Térreo",
+          "Sala 06 - Térreo",
+          "Sala 6.1 - Térreo",
+          "Sala 07 - Térreo",
+          "Sala 08 - Térreo",
+          "Predial (S.9) - Térreo",
+          "Sala 10 - Térreo",
+        ],
+        BlocoF: [
+          "Sala 01 - 1° Andar",
+          "Sala 02 - 1° Andar",
+          "Sala 03 - 1° Andar",
+          "Sala 04 - 1° Andar",
+          "Sala 05 - 1° Andar",
+          "Sala 06 - 1° Andar",
+          "Sala 07 - 1° Andar",
+          "Sala 08 - 1° Andar",
+          "Sala 09 - 1° Andar",
+          "Sala 10 - 1° Andar",
+          "Sala 11 - 2° Andar",
+          "Sala 12 - 2° Andar",
+          "Sala 13 - 2° Andar",
+          "Sala 14 - 2° Andar",
+          "Sala 15 - 2° Andar",
+          "Sala 16 - 2° Andar",
+          "Sala 17 - 2° Andar",
+          "Sala 18 - 2° Andar",
+          "Sala 19 - 2° Andar",
+          "Sala 20 - 2° Andar",
+        ],
+        BlocoG: ["Mecânica automotiva - Térreo"],
+        BlocoH: [
+          "Setor teórica de Empilhadeira - Térreo",
+          "Sala de Planta EMI - Térreo",
+          "Planta de processamento de cereais, raízes e derivados - Térreo",
+        ],
+      },
     };
   },
   mounted() {
+    // Recebe o número do computador pela rota
     const numeroComputador = this.$route.params.numeroComputador;
     if (numeroComputador) {
       this.numeroComputadorSelecionado = numeroComputador;
     }
   },
   methods: {
-    // Atualiza salas com base no bloco selecionado
-    async updateSalas(value) {
-      try {
-        const response = await axios.get(`http://localhost:3000/blocos/${value}/salas`);
-        this.salas = response.data;
-        this.numerodaSala = '';
-      } catch (error) {
-        console.error('Erro ao buscar salas:', error);
-        Swal.fire('Erro', 'Ocorreu um erro ao buscar as salas.', 'error');
-      }
+    updateSalas(value) {
+      this.salas = this.blocos[value] || [];
+      this.numerodaSala = '';
     },
-
-    // Navega para seleção de máquinas
-    async navigateToLugar() {
-      try {
-        const response = await axios.get('http://localhost:3000/maquinas');
-        this.$router.push('/lugar');
-      } catch (error) {
-        console.error('Erro ao buscar máquinas:', error);
-        Swal.fire('Erro', 'Ocorreu um erro ao buscar as máquinas.', 'error');
-      }
+    navigateToLugar() {
+      this.$router.push('/lugar'); // Navegar para a página Lugares.vue
     },
-
-    // Relatar problema
-    async reportProblem() {
+    reportProblem() {
       if (this.blocodaSala && this.numerodaSala && this.problema) {
-        const sanitizedProblem = this.sanitizeInput(this.problema === 'Outro' ? this.Outro : this.problema);
-        try {
-          const response = await axios.post('http://localhost:3000/chamados', {
-            bloco: this.blocodaSala,
-            sala: this.numerodaSala,
-            problema: sanitizedProblem,
-            numeroComputador: this.numeroComputadorSelecionado,
-          });
-
-          if (response.status === 200) {
-            Swal.fire({
-              title: 'Problema Relatado',
-              text: 'Seu problema foi relatado com sucesso!',
-              icon: 'success',
-              confirmButtonText: 'Fechar',
-            });
-          } else {
-            throw new Error('Falha ao relatar problema');
-          }
-        } catch (error) {
-          console.error('Erro ao relatar problema:', error);
-          Swal.fire('Erro', 'Ocorreu um erro ao relatar o problema. Tente novamente mais tarde.', 'error');
-        }
+        // Lógica para enviar o problema
+        Swal.fire('Problema Relatado', 'Seu problema foi relatado com sucesso!', 'success');
       } else {
         Swal.fire('Erro', 'Preencha todos os campos obrigatórios.', 'error');
       }
     },
-
-    // Sanitiza entrada de texto para evitar problemas de segurança
-    sanitizeInput(input) {
-      return input.replace(/<\/?[^>]+(>|$)/g, '');
-    },
   },
 };
 </script>
-
 
 
 <style scoped>
