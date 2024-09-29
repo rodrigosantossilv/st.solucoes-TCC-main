@@ -37,12 +37,7 @@
             <span v-if="isLoading">Carregando...</span>
             <span v-else>Login</span>
           </button>
-          <div class="text-center mt-3">
-            <p class="mb-0">
-              Não tem uma conta?
-              <router-link to="/register" class="btn btn-link">Crie uma</router-link>
-            </p>
-          </div>
+        
         </div>
       </div>
     </div>

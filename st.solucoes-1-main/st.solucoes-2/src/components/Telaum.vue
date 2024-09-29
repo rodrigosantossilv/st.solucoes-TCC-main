@@ -12,9 +12,7 @@
                 <button type="button" class="btn btn-outline-light ">Login</button>
             </router-link>
             <!-- Botão de Cadastro -->
-            <router-link to="/register">
-                <button type="button" class="btn btn-outline-light">Cadastre-se</button>
-            </router-link>
+          
         </div>
         <!-- SVG animado das ondas -->
         <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
