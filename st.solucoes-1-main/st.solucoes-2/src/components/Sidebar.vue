@@ -29,6 +29,9 @@
           <li class="nav-item">
             <router-link class="nav-link text-white" href="#">Home</router-link>
           </li>
+          <li class="nav-item">
+            <router-link class="nav-link text-white" href="#">Cadastra aluno</router-link>
+          </li>
         </ul>
       </div>
 

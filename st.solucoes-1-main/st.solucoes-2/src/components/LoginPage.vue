@@ -72,7 +72,7 @@ export default {
 
       try {
         // Verifica se é admin com senha 123456
-        if (this.usuario === 'admin' && this.password === '123456') {
+        if (this.usuario === 'user' && this.password === '123456') {
           Swal.fire({
             icon: 'success',
             title: 'Login de Admin!',
@@ -90,7 +90,7 @@ export default {
             text: 'Redirecionando para o chamados...',
             confirmButtonText: 'OK',
           }).then(() => {
-            this.$router.push('/register'); // Redireciona para a tela de Kanban
+            this.$router.push('/sidebar'); // Redireciona para a tela de Kanban
           });
           return;
         }

@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Telaum from './components/Telaum.vue';
+//import Telaum from './components/Telaum.vue';
 import LoginPage from './components/LoginPage.vue';
 import RegisterPage from './components/RegisterPage.vue';
 import Sidebar from './components/Sidebar.vue';
@@ -8,8 +8,8 @@ import Lugares from './components/Lugares.vue';
 import HomePage from './components/HomePage.vue';
 
 const routes = [
-  { path: '/', component: Telaum },
-  { path: '/login', component: LoginPage },
+  //  { path: '/', component: Telaum },
+  { path: '/', component: LoginPage },
   { path: '/register', component: RegisterPage },
   { path: '/sidebar', component: Sidebar },
   { path: '/openticketpage', component: OpenTicketPage},
