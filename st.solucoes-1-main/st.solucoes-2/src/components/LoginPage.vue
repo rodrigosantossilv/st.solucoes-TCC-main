@@ -46,7 +46,6 @@
 
 <script>
 import Swal from 'sweetalert2';
-import axios from 'axios';
 
 export default {
   data() {
@@ -84,7 +83,17 @@ export default {
           });
           return;
         }
-
+        if (this.usuario === 'admin' && this.password === '123456') {
+          Swal.fire({
+            icon: 'success',
+            title: 'Login de Admin!',
+            text: 'Redirecionando para o chamados...',
+            confirmButtonText: 'OK',
+          }).then(() => {
+            this.$router.push('/register'); // Redireciona para a tela de Kanban
+          });
+          return;
+        }
         // Se não for admin, continua com a chamada normal à API
         const response = await axios.post('/usuarios/login', {
           usuario: this.usuario,
